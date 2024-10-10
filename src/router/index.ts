@@ -72,7 +72,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     // },
     children: [
       {
-        path: "/list",
+        path: "/insurance/list",
         name: "保険契約一覧",
         component: () => import("@/views/insurance/index.vue"),
         meta: {

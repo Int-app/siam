@@ -169,6 +169,7 @@ const handleCreateOrUpdate = () => {
         :rules="formRules"
         label-width="100px"
         label-position="left"
+        class="modal-form"
       >
         <div>
           <el-form-item prop="EmployeeId" label="保険会社">
@@ -181,10 +182,55 @@ const handleCreateOrUpdate = () => {
               />
             </el-select>
           </el-form-item>
-          <el-form-item prop="password" label="保険プラン名"> </el-form-item>
-          <el-form-item prop="" label="証券番号"></el-form-item>
-          <el-form-item prop="" label="契約者名"> </el-form-item>
-          <el-form-item prop="" label="被保険者"> </el-form-item>
+          <el-form-item prop="password" label="保険プラン名">
+            <el-select>
+              <el-option
+                v-for="item in insuranceCompanyOptions"
+                :key="item.InsuranceCompanyId"
+                :label="item.InsuranceCompanyName"
+                :value="item.InsuranceCompanyId"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="" label="証券番号">
+            <el-input />
+          </el-form-item>
+          <el-form-item prop="" label="契約者名">
+            <div flex justify-around>
+              <div mr-2>
+                <div>カタカナ</div>
+                <el-input />
+              </div>
+              <div>
+                <div>漢字</div>
+                <el-input />
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item prop="" label="被保険者">
+            <div flex justify-between>
+              <div mr-2>
+                <div>&nbsp;</div>
+                <el-select style="width: 100px">
+                  <el-option
+                    v-for="item in insuranceCompanyOptions"
+                    :key="item.InsuranceCompanyId"
+                    :label="item.InsuranceCompanyName"
+                    :value="item.InsuranceCompanyId"
+                  />
+                </el-select>
+              </div>
+
+              <div mr-2>
+                <div>カタカナ</div>
+                <el-input />
+              </div>
+              <div>
+                <div>漢字</div>
+                <el-input />
+              </div>
+            </div>
+          </el-form-item>
           <el-form-item prop="Sex" label="性別">
             <el-radio-group v-model="formData.Sex">
               <el-radio :value="0" size="large">男</el-radio>
@@ -206,23 +252,39 @@ const handleCreateOrUpdate = () => {
           </el-form-item>
         </div>
         <div>
+          <el-form-item label="保険金額">
+            <el-input />
+          </el-form-item>
           <el-form-item prop="Address" label="住所">
-            <el-input v-model="formData.Address" />
+            <div min-w-full>
+              <div><el-input v-model="formData.Address" /></div>
+              <div mt-2 mb-2><el-input /></div>
+              <div><el-input /></div>
+            </div>
           </el-form-item>
           <el-form-item prop="Remarks" label="保険内容">
-            <el-input v-model="formData.Remarks" />
+            <el-input type="textarea" size="large" h-full placeholder="Please input" />
+          </el-form-item>
+          <el-form-item label="社員番号">
+            <el-input />
           </el-form-item>
         </div>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleCreateOrUpdate" :loading="loading">确认</el-button>
+        <el-button type="primary" @click="handleCreateOrUpdate" :loading="loading">登録</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.modal-form {
+  > div {
+    margin: 0 10px;
+    width: 50%;
+  }
+}
+
 .search-wrapper {
   margin-bottom: 20px;
   :deep(.el-card__body) {
