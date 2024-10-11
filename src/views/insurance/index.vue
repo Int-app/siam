@@ -95,22 +95,22 @@ const handleCreateOrUpdate = () => {
   <div class="app-container">
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-        <el-form-item prop="username" label="保険会社">
-          <el-input v-model="searchData.username" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="phone" label="保単番号">
-          <el-input v-model="searchData.phone" placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="phone" label="員工番号">
-          <el-input placeholder="请输入" />
-        </el-form-item>
-        <el-form-item prop="phone" label="員工姓名">
-          <el-input placeholder="请输入" />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
-          <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
-        </el-form-item>
+          <el-form-item prop="username" label="保険会社">
+            <el-input v-model="searchData.username" placeholder="请输入" />
+          </el-form-item>
+          <el-form-item prop="phone" label="保単番号">
+            <el-input v-model="searchData.phone" placeholder="请输入" />
+          </el-form-item>
+          <el-form-item prop="phone" label="員工番号">
+            <el-input placeholder="请输入" />
+          </el-form-item>
+          <el-form-item prop="phone" label="員工姓名">
+            <el-input placeholder="请输入" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+            <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
+          </el-form-item>
       </el-form>
     </el-card>
 
@@ -171,104 +171,106 @@ const handleCreateOrUpdate = () => {
         label-position="left"
         class="modal-form"
       >
-        <div>
-          <el-form-item prop="EmployeeId" label="保険会社">
-            <el-select v-model="formData.EmployeeId">
-              <el-option
-                v-for="item in insuranceCompanyOptions"
-                :key="item.InsuranceCompanyId"
-                :label="item.InsuranceCompanyName"
-                :value="item.InsuranceCompanyId"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="password" label="保険プラン名">
-            <el-select>
-              <el-option
-                v-for="item in insuranceCompanyOptions"
-                :key="item.InsuranceCompanyId"
-                :label="item.InsuranceCompanyName"
-                :value="item.InsuranceCompanyId"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item prop="" label="証券番号">
-            <el-input />
-          </el-form-item>
-          <el-form-item prop="" label="契約者名">
-            <div flex justify-around>
-              <div mr-2>
-                <div>カタカナ</div>
-                <el-input />
-              </div>
-              <div>
-                <div>漢字</div>
-                <el-input />
-              </div>
-            </div>
-          </el-form-item>
-          <el-form-item prop="" label="被保険者">
-            <div flex justify-between>
-              <div mr-2>
-                <div>&nbsp;</div>
-                <el-select style="width: 100px">
-                  <el-option
-                    v-for="item in insuranceCompanyOptions"
-                    :key="item.InsuranceCompanyId"
-                    :label="item.InsuranceCompanyName"
-                    :value="item.InsuranceCompanyId"
-                  />
-                </el-select>
-              </div>
+        <el-row :gutter="10" w-full>
+          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
+            <el-form-item prop="EmployeeId" label="保険会社">
+              <el-select v-model="formData.EmployeeId">
+                <el-option
+                  v-for="item in insuranceCompanyOptions"
+                  :key="item.InsuranceCompanyId"
+                  :label="item.InsuranceCompanyName"
+                  :value="item.InsuranceCompanyId"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item prop="password" label="保険プラン名">
+              <el-select>
+                <el-option
+                  v-for="item in insuranceCompanyOptions"
+                  :key="item.InsuranceCompanyId"
+                  :label="item.InsuranceCompanyName"
+                  :value="item.InsuranceCompanyId"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item prop="" label="証券番号">
+              <el-input />
+            </el-form-item>
+            <el-form-item prop="" label="契約者名">
+              <el-row :gutter="2" w-full>
+                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+                  <div>カタカナ</div>
+                  <el-input />
+                </el-col>
+                <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+                  <div>漢字</div>
+                  <el-input />
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item prop="" label="被保険者">
+              <el-row :gutter="2" w-full>
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                  <div>&nbsp;</div>
+                  <el-select>
+                    <el-option
+                      v-for="item in insuranceCompanyOptions"
+                      :key="item.InsuranceCompanyId"
+                      :label="item.InsuranceCompanyName"
+                      :value="item.InsuranceCompanyId"
+                    />
+                  </el-select>
+                </el-col>
 
-              <div mr-2>
-                <div>カタカナ</div>
-                <el-input />
-              </div>
-              <div>
-                <div>漢字</div>
-                <el-input />
-              </div>
-            </div>
-          </el-form-item>
-          <el-form-item prop="Sex" label="性別">
-            <el-radio-group v-model="formData.Sex">
-              <el-radio :value="0" size="large">男</el-radio>
-              <el-radio :value="1" size="large">女</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item prop="PhoneNumber" label="電話番号">
-            <el-input v-model="formData.PhoneNumber" />
-          </el-form-item>
-          <el-form-item prop="Email" label="メール">
-            <el-input v-model="formData.Email" />
-          </el-form-item>
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                  <div>カタカナ</div>
+                  <el-input />
+                </el-col>
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                  <div>漢字</div>
+                  <el-input />
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item prop="Sex" label="性別">
+              <el-radio-group v-model="formData.Sex">
+                <el-radio :value="0" size="large">男</el-radio>
+                <el-radio :value="1" size="large">女</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item prop="PhoneNumber" label="電話番号">
+              <el-input v-model="formData.PhoneNumber" />
+            </el-form-item>
+            <el-form-item prop="Email" label="メール">
+              <el-input v-model="formData.Email" />
+            </el-form-item>
 
-          <el-form-item prop="HireDate" label="誕生日">
-            <el-date-picker v-model="formData.HireDate" type="date" size="large" />
-          </el-form-item>
-          <el-form-item prop="LeavingDate" label="契約日">
-            <el-date-picker v-model="formData.LeavingDate" type="date" size="large" />
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item label="保険金額">
-            <el-input />
-          </el-form-item>
-          <el-form-item prop="Address" label="住所">
-            <div min-w-full>
-              <div><el-input v-model="formData.Address" /></div>
-              <div mt-2 mb-2><el-input /></div>
-              <div><el-input /></div>
-            </div>
-          </el-form-item>
-          <el-form-item prop="Remarks" label="保険内容">
-            <el-input type="textarea" size="large" h-full placeholder="Please input" />
-          </el-form-item>
-          <el-form-item label="社員番号">
-            <el-input />
-          </el-form-item>
-        </div>
+            <el-form-item prop="HireDate" label="誕生日">
+              <el-date-picker v-model="formData.HireDate" type="date" size="large" />
+            </el-form-item>
+            <el-form-item prop="LeavingDate" label="契約日">
+              <el-date-picker v-model="formData.LeavingDate" type="date" size="large" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
+            <el-form-item label="保険金額">
+              <el-input />
+            </el-form-item>
+            <el-form-item prop="Address" label="住所">
+              <div min-w-full>
+                <div><el-input v-model="formData.Address" /></div>
+                <div mt-2 mb-2><el-input /></div>
+                <div><el-input /></div>
+              </div>
+            </el-form-item>
+            <el-form-item prop="Remarks" label="保険内容">
+              <el-input type="textarea" size="large" h-full placeholder="Please input" />
+            </el-form-item>
+            <el-form-item label="社員番号">
+              <el-input />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <el-button type="primary" @click="handleCreateOrUpdate" :loading="loading">登録</el-button>
@@ -281,7 +283,6 @@ const handleCreateOrUpdate = () => {
 .modal-form {
   > div {
     margin: 0 10px;
-    width: 50%;
   }
 }
 
