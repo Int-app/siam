@@ -2,7 +2,7 @@ import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios"
 import { useUserStoreHook } from "@/store/modules/user"
 import { ElMessage } from "element-plus"
 import { get, merge } from "lodash-es"
-import https from 'https'
+import https from "https"
 import { getToken } from "./cache/cookies"
 
 /** 退出登录并强制刷新页面（会重定向到登录页） */
@@ -109,10 +109,7 @@ function createRequest(service: AxiosInstance) {
       },
       timeout: 5000,
       baseURL: import.meta.env.VITE_BASE_API,
-      data: {},
-      default: {
-        // agent: new https.Agent(),
-      }
+      data: {}
     }
     // 将默认配置 defaultConfig 和传入的自定义配置 config 进行合并成为 mergeConfig
     const mergeConfig = merge(defaultConfig, config)

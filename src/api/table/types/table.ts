@@ -6,7 +6,7 @@ export interface CreateOrUpdateTableRequestData {
 
 export interface TableRequestData {
   /** 当前页码 */
-  currentPage: number
+  pageNum: number
   /** 查询条数 */
   size: number
   /** 查询参数：用户名 */

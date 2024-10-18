@@ -82,7 +82,7 @@ const searchData = reactive({
 const getTableData = () => {
   loading.value = true
   getTableDataApi({
-    currentPage: paginationData.currentPage,
+    pageNum: paginationData.pageNum,
     size: paginationData.pageSize,
     username: searchData.username || undefined,
     phone: searchData.phone || undefined
@@ -99,7 +99,7 @@ const getTableData = () => {
     })
 }
 const handleSearch = () => {
-  paginationData.currentPage === 1 ? getTableData() : (paginationData.currentPage = 1)
+  paginationData.pageNum === 1 ? getTableData() : (paginationData.pageNum = 1)
 }
 const resetSearch = () => {
   searchFormRef.value?.resetFields()
@@ -108,7 +108,7 @@ const resetSearch = () => {
 //#endregion
 
 /** 监听分页参数的变化 */
-watch([() => paginationData.currentPage, () => paginationData.pageSize], getTableData, { immediate: true })
+watch([() => paginationData.pageNum, () => paginationData.pageSize], getTableData, { immediate: true })
 </script>
 
 <template>
@@ -172,11 +172,10 @@ watch([() => paginationData.currentPage, () => paginationData.pageSize], getTabl
       <div class="pager-wrapper">
         <el-pagination
           background
-          :layout="paginationData.layout"
           :page-sizes="paginationData.pageSizes"
           :total="paginationData.total"
           :page-size="paginationData.pageSize"
-          :currentPage="paginationData.currentPage"
+          :pageNum="paginationData.pageNum"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />

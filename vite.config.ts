@@ -27,7 +27,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       /** 端口号 */
       port: 3333,
       /** 是否自动打开浏览器 */
-      open: false,
+      open: true,
       /** 跨域设置允许 */
       cors: true,
       /** 端口被占用时，是否直接退出 */
@@ -37,7 +37,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         "/api/v1": {
           // target: "https://mock.mengxuegu.com/mock/63218b5fb4c53348ed2bc212",
           target: "http://localhost:8089",
-          rewrite: path => path.replace(/^\/api\/v1/, ''),
+          rewrite: (path) => path.replace(/^\/api\/v1/, ""),
           ws: true,
           /** 是否允许跨域 */
           changeOrigin: true

@@ -159,7 +159,7 @@ const xGridOpt: VxeGridProps = reactive({
             username: form.username || undefined,
             phone: form.phone || undefined,
             size: page.pageSize,
-            currentPage: page.currentPage
+            pageNum: page.pageNum
           }
           /** 调用接口 */
           getTableDataApi(params).then(callback).catch(callback)
@@ -309,9 +309,9 @@ const crudStore = reactive({
   afterInsert: () => {
     const pager = xGridDom.value?.getProxyInfo()?.pager
     if (pager) {
-      const currentTotal = pager.currentPage * pager.pageSize
+      const currentTotal = pager.pageNum * pager.pageSize
       if (currentTotal === pager.total) {
-        ++pager.currentPage
+        ++pager.pageNum
       }
     }
   },
@@ -339,8 +339,8 @@ const crudStore = reactive({
   afterDelete: () => {
     const tableData: RowMeta[] = xGridDom.value!.getData()
     const pager = xGridDom.value?.getProxyInfo()?.pager
-    if (pager && pager.currentPage > 1 && tableData.length === 1) {
-      --pager.currentPage
+    if (pager && pager.pageNum > 1 && tableData.length === 1) {
+      --pager.pageNum
     }
   },
   /** 更多自定义方法 */
