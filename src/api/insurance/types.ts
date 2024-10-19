@@ -23,52 +23,61 @@ export interface InsuranceData {
   insurancecompanyid?: number
 
   /**保険プラン名 */
-  insuranceplanname: string
+  insuranceproductid: string
 
   /**証券番号 */
-  insurancecontractnumber: string
+  insurancepapersno: string
 
   /**契約者名 カタカナ */
-  customernamekana: string
+  contractorfamilyname: string
 
   /**契約者名 漢字 */
-  customername: string
+  contractorgivenname: string
 
   /** 被保険者relation */
-  relationship: string
+  insuredpersonfamilynamek: string
 
   /** 被保険者カタカナ */
-  insurednamekana: string
+  insuredpersonfamilyname: string
 
   /** 被保険者漢字 */
-  insuredname: string
+  insuredpersongivenname: string
 
   /**性別 */
-  customersex: number
+  sex: number
 
   /** 電話番号 */
-  customerphonenumber: string
+  phonenumber: string
 
   /** メール */
-  customeremail: string
+  email: string
 
   /** 誕生日 */
-  customerbirthday: string
+  birthday: string
 
   /**契約日 */
   contractdate: string
 
   /** 保険金額 */
-  contractamount: number
+  insuranceamount: number
 
-  /** 住所 */
-  customeraddress: string
+  /** 住所(郵便番号) */
+  addresspostcode: string
+
+  /**住所(都道府県) */
+  addressprefecture: string
+
+  /** 住所(市区町村) */
+  addressmunicipalities: string
+
+  /**住所(番地以降) */
+  addressother: string
 
   /** 保険内容 */
-  contractdetail: string
+  remarks: string
 
   /** 社員番号 */
-  employeeid: string
+  teamemployeeid: string
 }
 
 export type InsuranceResponseData = ApiResponseData<{ list: InsuranceData[] } & PaginationType>
