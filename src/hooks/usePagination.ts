@@ -36,5 +36,13 @@ export function usePagination(initialPaginationData: PaginationData = {}) {
     paginationData.pageSize = value
   }
 
-  return { paginationData, handleCurrentChange, handleSizeChange }
+  const handleTotalChange = (value: number) => {
+    paginationData.total = value
+  }
+
+  const handleMerge = (newPaginationData: PaginationData = {}) => {
+    Object.assign(paginationData, newPaginationData)
+  }
+
+  return { paginationData, handleCurrentChange, handleSizeChange, handleTotalChange, handleMerge }
 }

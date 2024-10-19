@@ -16,6 +16,9 @@ export interface InsuranceQuery extends PaginationType {
 
 /** data */
 export interface InsuranceData {
+  /** primarykey */
+  insurancecontractid?: number
+
   /**保険会社 */
   insurancecompanyid?: number
 
@@ -68,4 +71,4 @@ export interface InsuranceData {
   employeeid: string
 }
 
-export type InsuranceResponseData = ApiResponseData<{ list: InsuranceData[] }>
+export type InsuranceResponseData = ApiResponseData<{ list: InsuranceData[] } & PaginationType>

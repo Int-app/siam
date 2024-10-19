@@ -7,14 +7,24 @@ import type { InsuranceData } from "@/api/insurance/types"
 import { cloneDeep } from "lodash-es"
 import { usePagination } from "@/hooks/usePagination"
 import { getInsuranceList, deleteInsurance, addInsurance, updateInsurance } from "@/api/insurance"
+import { OptionType } from "element-plus/es/components/select-v2/src/select.types.mjs"
 
-const { paginationData, handleCurrentChange, handleSizeChange } = usePagination()
+const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 const loading = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const searchFormRef = ref<FormInstance | null>(null)
 const dialogVisible = ref<boolean>(false)
 
-const insuranceCompanyOptions = ref<InsuranceCompanyInterface[]>([])
+const insuranceCompanyOptions = ref<{ label: string; value: string; disabled?: boolean }[]>([
+  {
+    label: "test1",
+    value: "1"
+  },
+  {
+    label: "test2",
+    value: "2"
+  }
+])
 
 const searchData = reactive({
   employeeId: undefined, // 員工番号
@@ -25,6 +35,7 @@ const searchData = reactive({
 
 //#region 增
 const DEFAULT_FORM_DATA: InsuranceData = {
+  insurancecontractid: undefined, // primarykey
   insurancecompanyid: undefined, // 保険会社
   insuranceplanname: "", // 保険プラン名
   insurancecontractnumber: "", // 証券番号
@@ -45,11 +56,11 @@ const DEFAULT_FORM_DATA: InsuranceData = {
 }
 
 const formData = ref<InsuranceData>(cloneDeep(DEFAULT_FORM_DATA))
-const tableData = ref<TableData[]>()
+const tableData = ref<TableData[]>([])
 
-onMounted(() => {
-  getTableData()
-})
+// onMounted(() => {
+//   getTableData()
+// })
 
 const getTableData = () => {
   loading.value = true
@@ -57,6 +68,7 @@ const getTableData = () => {
   getInsuranceList({ ...paginationData, ...searchData })
     .then((res) => {
       tableData.value = res.data.list
+      handleMerge({ pageNum: res.data.pageNum, pageSize: res.data.pageSize, total: res.data.total })
     })
     .finally(() => (loading.value = false))
 }
@@ -108,7 +120,7 @@ const handleCreateOrUpdate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
     if (!valid) return console.error("表单校验不通过", fields)
     loading.value = true
-    const api = formData.value.employeeid === undefined ? addInsurance : updateInsurance
+    const api = formData.value.insurancecontractid === undefined ? addInsurance : updateInsurance
     api(formData.value)
       .then((res) => {
         ElMessage({
@@ -187,7 +199,7 @@ const handleCreateOrUpdate = () => {
     </el-card>
     <el-dialog
       v-model="dialogVisible"
-      :title="formData.employeeid === undefined ? '新規保険契約' : '改修保険契約'"
+      :title="formData.insurancecontractid === undefined ? '新規保険契約' : '改修保険契約'"
       @closed="resetForm"
       width="60%"
     >
@@ -204,14 +216,7 @@ const handleCreateOrUpdate = () => {
         <el-row :gutter="10" w-full>
           <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
             <el-form-item prop="insurancecompanyid" label="保険会社">
-              <el-select v-model="formData.insurancecompanyid">
-                <el-option
-                  v-for="item in insuranceCompanyOptions"
-                  :key="item.InsuranceCompanyId"
-                  :label="item.InsuranceCompanyName"
-                  :value="item.InsuranceCompanyId"
-                />
-              </el-select>
+              <el-select-v2 v-model="formData.insurancecompanyid" :options="insuranceCompanyOptions"> </el-select-v2>
             </el-form-item>
             <el-form-item prop="insuranceplanname" label="保険プラン名">
               <el-select-v2 v-model="formData.insuranceplanname" :options="[]"> </el-select-v2>
@@ -270,10 +275,22 @@ const handleCreateOrUpdate = () => {
             </el-form-item>
 
             <el-form-item prop="customerbirthday" label="誕生日">
-              <el-date-picker v-model="formData.customerbirthday" type="date" size="large" />
+              <el-date-picker
+                v-model="formData.customerbirthday"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+                type="date"
+                size="large"
+              />
             </el-form-item>
             <el-form-item prop="contractdate" label="契約日">
-              <el-date-picker v-model="formData.contractdate" type="date" size="large" />
+              <el-date-picker
+                v-model="formData.contractdate"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+                type="date"
+                size="large"
+              />
             </el-form-item>
           </el-col>
           <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
