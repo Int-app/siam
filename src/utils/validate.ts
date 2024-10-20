@@ -8,6 +8,12 @@ export const isString = (str: unknown) => {
   return typeof str === "string" || str instanceof String
 }
 
+// check number
+export const isNumber = (num: string) => {
+  const reg = /[0-9]/
+  return reg.test(num)
+}
+
 /** 判断是否为外链 */
 export const isExternal = (path: string) => {
   const reg = /^(https?:|mailto:|tel:)/

@@ -1,5 +1,6 @@
 import { request } from "@/utils/service"
 import { InsuranceQuery, InsuranceResponseData, InsuranceData } from "./types"
+import { resOptionType } from "../common"
 
 // list
 export const getInsuranceList = (data?: InsuranceQuery) => {
@@ -33,6 +34,32 @@ export const deleteInsurance = (data: InsuranceData) => {
   return request<any>({
     url: "insurance/delete",
     method: "delete",
+    data
+  })
+}
+
+//code
+export const getCodeList = (data: any) => {
+  return request<any>({
+    url: "code/list",
+    method: "post",
+    data
+  })
+}
+
+// insurancecompany
+export const getInsurancecompanyList = () => {
+  return request<{ data: resOptionType[] }>({
+    url: "insurancecompany/list",
+    method: "post"
+  })
+}
+
+//insuranceproduct
+export const getInsuranceproductList = (data: string) => {
+  return request<{ data: resOptionType[] }>({
+    url: `insuranceproduct/list/${data}`,
+    method: "post",
     data
   })
 }

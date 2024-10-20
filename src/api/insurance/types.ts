@@ -28,20 +28,35 @@ export interface InsuranceData {
   /**証券番号 */
   insurancepapersno: string
 
-  /**契約者名 カタカナ */
+  /** 契約者(セイ) */
+  contractorfamilynamek: string
+
+  /**  契約者(メイ) */
+  contractorgivennamek: string
+
+  /**  契約者(姓) */
   contractorfamilyname: string
 
-  /**契約者名 漢字 */
+  /** 契約者(名) */
   contractorgivenname: string
 
   /** 被保険者relation */
+  relationship: string
+
+  /**  被保険者(セイ */
   insuredpersonfamilynamek: string
 
-  /** 被保険者カタカナ */
+  /**  被保険者(メイ) */
+  insuredpersongivennamek: string
+
+  /**  被保険者(姓) */
   insuredpersonfamilyname: string
 
-  /** 被保険者漢字 */
+  /** 被保険者(名) */
   insuredpersongivenname: string
+
+  /**  年齢(保険開始時) */
+  age: number
 
   /**性別 */
   sex: number
@@ -57,6 +72,21 @@ export interface InsuranceData {
 
   /**契約日 */
   contractdate: string
+
+  /**  保険開始日 */
+  insurancestartdate: string
+
+  /**  解約フラグ */
+  iscanceled: number
+
+  /**  解約日  */
+  cancellationdate: string
+
+  /**  支払いサイクル */
+  paymentcycle: number
+
+  /**  契約者との関係(補足)  */
+  relationshipother: string
 
   /** 保険金額 */
   insuranceamount: number
@@ -76,8 +106,29 @@ export interface InsuranceData {
   /** 保険内容 */
   remarks: string
 
-  /** 社員番号 */
+  /**  社員番号 */
+  employeeid: string
+
+  /** 共同募集社員番号 */
   teamemployeeid: string
+
+  /** 初年度手数料 */
+  initialcommission: number
+
+  /** 支給方式 */
+  paymentmethod: number
+
+  /** 支給月数 */
+  paymentmonths: number
+
+  /** 総額 */
+  totalamount: number
+
+  /**  支給比率 */
+  paymentpercentage: number
+
+  /** 論理削除Flg */
+  deleteflag: number
 }
 
 export type InsuranceResponseData = ApiResponseData<{ list: InsuranceData[] } & PaginationType>

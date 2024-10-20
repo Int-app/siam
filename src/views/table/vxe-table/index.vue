@@ -158,11 +158,11 @@ const xGridOpt: VxeGridProps = reactive({
           const params = {
             username: form.username || undefined,
             phone: form.phone || undefined,
-            size: page.pageSize,
-            pageNum: page.pageNum
+            size: page.pageSize
+            // pageNum: page.pageNum
           }
           /** 调用接口 */
-          getTableDataApi(params).then(callback).catch(callback)
+          // getTableDataApi(params).then(callback).catch(callback)
         })
       }
     }
@@ -309,10 +309,10 @@ const crudStore = reactive({
   afterInsert: () => {
     const pager = xGridDom.value?.getProxyInfo()?.pager
     if (pager) {
-      const currentTotal = pager.pageNum * pager.pageSize
-      if (currentTotal === pager.total) {
-        ++pager.pageNum
-      }
+      // const currentTotal = pager.pageNum * pager.pageSize
+      // if (currentTotal === pager.total) {
+      //   ++pager.pageNum
+      // }
     }
   },
   /** 删除 */
@@ -339,9 +339,9 @@ const crudStore = reactive({
   afterDelete: () => {
     const tableData: RowMeta[] = xGridDom.value!.getData()
     const pager = xGridDom.value?.getProxyInfo()?.pager
-    if (pager && pager.pageNum > 1 && tableData.length === 1) {
-      --pager.pageNum
-    }
+    // if (pager && pager.pageNum > 1 && tableData.length === 1) {
+    //   --pager.pageNum
+    // }
   },
   /** 更多自定义方法 */
   moreFn: () => {}
