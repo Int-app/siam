@@ -58,7 +58,7 @@ const DEFAULT_FORM_DATA: InsuranceData = {
   insuredpersonfamilyname: "", //被保険者(姓)
   insuredpersongivenname: "", //被保険者(名)
   age: 0, // 年齢(保険開始時)
-  sex: 0, //性別
+  sex: 1, //性別
   phonenumber: "", //電話番号
   email: "", //メール
   birthday: "", //誕生日
@@ -77,7 +77,7 @@ const DEFAULT_FORM_DATA: InsuranceData = {
   employeeid: "", //社員番号
   teamemployeeid: "", // 共同募集社員番号
   initialcommission: 0, // 初年度手数料
-  paymentmethod: 0, // 支給方式
+  paymentmethod: 1, // 支給方式
   paymentmonths: 0, // 支給月数
   totalamount: 0, //総額
   paymentpercentage: 0, //支給比率
@@ -185,6 +185,7 @@ const handleCreateOrUpdate = () => {
         dialogVisible.value = false
         formRef.value?.clearValidate()
         formRef.value?.resetFields()
+        getTableData()
       })
       .finally(() => (loading.value = false))
   })
