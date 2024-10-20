@@ -139,9 +139,11 @@ const handleDelete = (row: InsuranceData) => {
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteInsurance(row).then((res) => {
-      getTableData()
-    })
+    if (row.insurancecontractid) {
+      deleteInsurance(String(row.insurancecontractid)).then((res) => {
+        getTableData()
+      })
+    }
   })
 }
 

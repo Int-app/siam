@@ -30,11 +30,10 @@ export const updateInsurance = (data: InsuranceData) => {
 }
 
 // delete
-export const deleteInsurance = (data: InsuranceData) => {
+export const deleteInsurance = (insurancecontractid: string) => {
   return request<any>({
-    url: "insurance/delete",
-    method: "delete",
-    data
+    url: `insurance/delete/${insurancecontractid}`,
+    method: "delete"
   })
 }
 
