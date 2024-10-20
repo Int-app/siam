@@ -184,6 +184,7 @@ const handleCreateOrUpdate = () => {
         })
         dialogVisible.value = false
         formRef.value?.clearValidate()
+        formRef.value?.resetFields()
       })
       .finally(() => (loading.value = false))
   })
