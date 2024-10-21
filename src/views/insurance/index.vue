@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted, watch } from "vue"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
-import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
+import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue } from "element-plus"
 import type { InsuranceCompanyInterface, OptionType, TableData } from "./types"
 import type { InsuranceData } from "@/api/insurance/types"
 import { cloneDeep } from "lodash-es"
@@ -16,6 +16,7 @@ import {
 } from "@/api/insurance"
 import { mapDataToOption } from "./utils"
 import { isNumber } from "@/utils/validate"
+import { DEFAULT_FORM_DATA, relationOptions, formRules, paymentcycleOptions } from "./constants"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 const loading = ref<boolean>(false)
@@ -25,15 +26,11 @@ const dialogVisible = ref<boolean>(false)
 
 const insuranceCompanyOptions = ref<OptionType[]>([])
 const insuranceproductidOptions = ref<OptionType[]>([])
-const relationOptions = ref<OptionType[]>([
-  { label: "本人", value: 1 },
-  { label: "配偶者", value: 2 },
-  { label: "父母", value: 3 },
-  { label: "子", value: 4 },
-  { label: "祖父母", value: 5 },
-  { label: "孫", value: 6 },
-  { label: "その他", value: 99 }
-])
+
+const activeNames = ref(["1"])
+const handleChange = (val: CollapseModelValue) => {
+  console.log(val)
+}
 
 const searchData = reactive({
   employeeId: undefined, // 員工番号
@@ -41,48 +38,6 @@ const searchData = reactive({
   insuranceCompanyName: "", // 保険会社
   insurancecontractnumber: undefined //保単番号
 })
-
-//#region 增
-const DEFAULT_FORM_DATA: InsuranceData = {
-  insurancecontractid: undefined, // primarykey
-  insurancecompanyid: undefined, // 保険会社
-  insuranceproductid: "", // 保険プラン名
-  insurancepapersno: "", // 証券番号
-  contractorfamilynamek: "", // 契約者(セイ)
-  contractorgivennamek: "", // 契約者(メイ)
-  contractorfamilyname: "", // 契約者(姓)
-  contractorgivenname: "", // 契約者(名)
-  relationship: "", // 被保険者relation
-  insuredpersonfamilynamek: "", //被保険者(セイ
-  insuredpersongivennamek: "", // 被保険者(メイ)
-  insuredpersonfamilyname: "", //被保険者(姓)
-  insuredpersongivenname: "", //被保険者(名)
-  age: 0, // 年齢(保険開始時)
-  sex: 1, //性別
-  phonenumber: "", //電話番号
-  email: "", //メール
-  birthday: "", //誕生日
-  contractdate: "", //契約日
-  insurancestartdate: "", // 保険開始日
-  iscanceled: 0, //解約フラグ
-  cancellationdate: "", //解約日
-  paymentcycle: 0, //支払いサイクル
-  relationshipother: "", //契約者との関係(補足)
-  insuranceamount: 0, //保険金額
-  addresspostcode: "", //住所(郵便番号)
-  addressprefecture: "", // 住所(都道府県)
-  addressmunicipalities: "", // 住所(市区町村)
-  addressother: "", //住所(番地以降)
-  remarks: "", //保険内容
-  employeeid: "", //社員番号
-  teamemployeeid: "", // 共同募集社員番号
-  initialcommission: 0, // 初年度手数料
-  paymentmethod: 1, // 支給方式
-  paymentmonths: 0, // 支給月数
-  totalamount: 0, //総額
-  paymentpercentage: 0, //支給比率
-  deleteflag: 0 //論理削除Flg
-}
 
 const formData = ref<InsuranceData>(cloneDeep(DEFAULT_FORM_DATA))
 const tableData = ref<TableData[]>([])
@@ -153,25 +108,6 @@ const resetForm = () => {
 }
 
 // -------------------------------modal----------------------------
-const formRules: FormRules<any> = {
-  insurancecompanyid: [{ required: true, message: "保険会社入力してください" }],
-  contractorfamilyname: [{ required: true, message: "契約者(姓)入力してください" }],
-  contractorgivenname: [{ required: true, message: "契約者(名)入力してください" }],
-  contractorfamilynamek: [{ required: true, message: "契約者(セイ)入力してください" }],
-  contractorgivennamek: [{ required: true, message: "契約者(メイ)入力してください" }],
-  contractdate: [{ required: true, message: "契約日選択してください" }],
-  insurancestartdate: [{ required: true, message: "保険開始日選択してください" }],
-  insuranceamount: [{ required: true, message: "保険金額入力してください" }],
-  relationship: [{ required: true, message: "契約者との関係選択してください" }],
-  insuredpersonfamilyname: [{ required: true, message: "被保険者(姓)入力してください" }],
-  insuredpersongivenname: [{ required: true, message: "被保険者(名)入力してください" }],
-  insuredpersonfamilynamek: [{ required: true, message: "被保険者(セイ)入力してください" }],
-  insuredpersongivennamek: [{ required: true, message: "被保険者(メイ)入力してください" }],
-  sex: [{ required: true, message: "性別選択してください" }],
-  employeeid: [{ required: true, message: "社員番号入力してください" }],
-  initialcommission: [{ required: true, message: "初年度手数料入力してください" }],
-  paymentmethod: [{ required: true, message: "支給方式選択してください" }] //
-}
 
 const handleCreateOrUpdate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
@@ -264,7 +200,6 @@ const handleCreateOrUpdate = () => {
     >
       <el-form
         flex
-        justify-around
         ref="formRef"
         :model="formData"
         :rules="formRules"
@@ -273,8 +208,8 @@ const handleCreateOrUpdate = () => {
         hide-required-asterisk
         class="modal-form"
       >
-        <el-row :gutter="10" w-full>
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
+        <el-collapse w-full v-model="activeNames" @change="handleChange" accordion>
+          <el-collapse-item w-full title="契約情報" name="1">
             <el-form-item v-show="false" prop="insurancecontractid" label="primarykey">
               <el-input v-model="formData.insurancecontractid" />
             </el-form-item>
@@ -317,6 +252,33 @@ const handleCreateOrUpdate = () => {
                 </el-col>
               </el-row>
             </el-form-item>
+
+            <el-form-item prop="contractdate" label="契約日">
+              <el-date-picker
+                v-model="formData.contractdate"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+                type="date"
+                size="large"
+              />
+            </el-form-item>
+            <el-form-item prop="insurancestartdate" label="保険開始日">
+              <el-date-picker
+                v-model="formData.insurancestartdate"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+                type="date"
+                size="large"
+              />
+            </el-form-item>
+            <el-form-item prop="insuranceamount" label="保険金額">
+              <el-input v-model="formData.insuranceamount" />
+            </el-form-item>
+            <el-form-item prop="paymentcycle" label="支払いサイクル">
+              <el-select-v2 v-model="formData.paymentcycle" :options="paymentcycleOptions"></el-select-v2>
+            </el-form-item>
+          </el-collapse-item>
+          <el-collapse-item w-full title="被保険者情報" name="2">
             <el-form-item prop="" label="被保険者">
               <el-row :gutter="2" w-full>
                 <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
@@ -355,9 +317,6 @@ const handleCreateOrUpdate = () => {
                 </el-col>
               </el-row>
             </el-form-item>
-            <el-form-item prop="age" label="年齢(保険開始時)">
-              <el-input v-model="formData.age" />
-            </el-form-item>
             <el-form-item prop="sex" label="性別">
               <el-radio-group v-model="formData.sex">
                 <el-radio :value="1" size="large">男</el-radio>
@@ -380,32 +339,8 @@ const handleCreateOrUpdate = () => {
                 size="large"
               />
             </el-form-item>
-            <el-form-item prop="contractdate" label="契約日">
-              <el-date-picker
-                v-model="formData.contractdate"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                type="date"
-                size="large"
-              />
-            </el-form-item>
-            <el-form-item prop="insurancestartdate" label="保険開始日">
-              <el-date-picker
-                v-model="formData.insurancestartdate"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                type="date"
-                size="large"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
-            <el-form-item prop="insuranceamount" label="保険金額">
-              <el-input v-model="formData.insuranceamount" />
-              <!-- <el-input-number v-model="formData.insuranceamount" :min="0"> </el-input-number> -->
-            </el-form-item>
-            <el-form-item prop="initialcommission" label="初年度手数料">
-              <el-input v-model="formData.initialcommission" />
+            <el-form-item prop="age" label="年齢(保険開始時)">
+              <el-input v-model="formData.age" />
             </el-form-item>
             <el-form-item prop="addresspostcode" label="住所">
               <el-input v-model="formData.addresspostcode" />
@@ -419,17 +354,25 @@ const handleCreateOrUpdate = () => {
             <el-form-item prop="remarks" label="保険内容">
               <el-input v-model="formData.remarks" type="textarea" size="large" h-full placeholder="Please input" />
             </el-form-item>
+          </el-collapse-item>
+          <el-collapse-item w-full title="社員情報" name="3">
             <el-form-item prop="teamemployeeid" label="社員番号">
               <el-input v-model="formData.employeeid" />
             </el-form-item>
+          </el-collapse-item>
+          <el-collapse-item w-full title="手数料" name="4">
+            <el-form-item prop="initialcommission" label="初年度手数料">
+              <el-input v-model="formData.initialcommission" />
+            </el-form-item>
+
             <el-form-item prop="paymentmethod" label="支給方式">
               <el-radio-group v-model="formData.paymentmethod">
                 <el-radio :value="1">月数支給</el-radio>
                 <el-radio :value="2">比率支給</el-radio>
               </el-radio-group>
             </el-form-item>
-          </el-col>
-        </el-row>
+          </el-collapse-item>
+        </el-collapse>
       </el-form>
       <template #footer>
         <el-button type="primary" @click="handleCreateOrUpdate" :loading="loading">登録</el-button>
