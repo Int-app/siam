@@ -17,6 +17,7 @@ import {
 import { mapDataToOption } from "./utils"
 import { isNumber } from "@/utils/validate"
 import { DEFAULT_FORM_DATA, relationOptions, formRules, paymentcycleOptions } from "./constants"
+import MlTableColumn from "ml-table-column"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 const loading = ref<boolean>(false)
@@ -89,8 +90,8 @@ const handleUpdate = (row: InsuranceData) => {
 
 //#region 删
 const handleDelete = (row: InsuranceData) => {
-  ElMessageBox.confirm(`正在删除用户：确认删除？`, "提示", {
-    confirmButtonText: "确定",
+  ElMessageBox.confirm(`削除ユーザ：削除しますか？`, "提示", {
+    confirmButtonText: "確定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
@@ -111,13 +112,13 @@ const resetForm = () => {
 
 const handleCreateOrUpdate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
-    if (!valid) return console.error("表单校验不通过", fields)
+    if (!valid) return console.error("チェックエラー", fields)
     loading.value = true
     const api = formData.value.insurancecontractid === undefined ? addInsurance : updateInsurance
     api(formData.value)
       .then((res) => {
         ElMessage({
-          message: "编辑成功",
+          message: "変更成功",
           type: "success"
         })
         dialogVisible.value = false
@@ -147,8 +148,8 @@ const handleCreateOrUpdate = () => {
           <el-input v-model="searchData.employeeName" placeholder="入力してください" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
-          <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
+          <el-button type="primary" :icon="Search" @click="handleSearch">検索</el-button>
+          <el-button :icon="Refresh" @click="resetSearch">クリア</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -161,22 +162,22 @@ const handleCreateOrUpdate = () => {
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="insurancecompanyid" label="保険会社" align="center" />
-          <el-table-column prop="insuranceproductids" label="保険プラン名" align="center" />
-          <el-table-column prop="insurancepapersno" label="証券番号" align="center" />
-          <el-table-column prop="contractorfamilyname" label="契約者名(カタカナ)" align="center" />
-          <el-table-column prop="contractorgivenname" label="契約者名(漢字)" align="center" />
-          <el-table-column prop="insuredpersonfamilynamek" label="被保険者(続)" align="center" />
-          <el-table-column prop="insuredpersonfamilyname" label="被保険者(カタカナ)" align="center" />
-          <el-table-column prop="insuredpersongivenname" label="被保険者(漢字)" align="center" />
+          <ml-table-column prop="insurancecompanyid" label="保険会社" align="center" />
+          <ml-table-column prop="insuranceproductid" label="保険プラン名" align="center" />
+          <ml-table-column prop="insurancepapersno" label="証券番号" align="center" />
+          <ml-table-column prop="contractorfamilyname" label="契約者名(カタカナ)" align="center" width="150" />
+          <ml-table-column prop="contractorgivenname" label="契約者名(漢字)" align="center" width="150"/>
+          <ml-table-column prop="insuredpersonfamilynamek" label="被保険者(続)" align="center" />
+          <ml-table-column prop="insuredpersonfamilyname" label="被保険者(カタカナ)" align="center" width="150"/>
+          <ml-table-column prop="insuredpersongivenname" label="被保険者(漢字)" align="center" width="150"/>
           <el-table-column prop="sex" label="性別" align="center" />
-          <el-table-column prop="phonenumber" label="電話番号" align="center" />
-          <el-table-column prop="email" label="メール" align="center" />
+          <ml-table-column prop="phonenumber" label="電話番号" align="center" />
+          <ml-table-column prop="email" label="メール" align="center" />
 
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template #default="scope">
-              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">改修</el-button>
-              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">消除</el-button>
+              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">編集</el-button>
+              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">削除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -194,7 +195,7 @@ const handleCreateOrUpdate = () => {
     </el-card>
     <el-dialog
       v-model="dialogVisible"
-      :title="formData.insurancecontractid === undefined ? '新規保険契約' : '改修保険契約'"
+      :title="formData.insurancecontractid === undefined ? '新規' : '編集'"
       @closed="resetForm"
       width="60%"
     >
@@ -208,19 +209,25 @@ const handleCreateOrUpdate = () => {
         hide-required-asterisk
         class="modal-form"
       >
-        <el-collapse w-full v-model="activeNames" @change="handleChange" accordion>
+        <el-collapse w-full v-model="activeNames" @change="handleChange" simple>
           <el-collapse-item w-full title="契約情報" name="1">
             <el-form-item v-show="false" prop="insurancecontractid" label="primarykey">
               <el-input v-model="formData.insurancecontractid" />
             </el-form-item>
-            <el-form-item prop="insurancecompanyid" label="保険会社">
-              <el-select-v2 v-model="formData.insurancecompanyid" :options="insuranceCompanyOptions" clearable>
-              </el-select-v2>
-            </el-form-item>
-            <el-form-item prop="insuranceproductid" label="保険プラン名">
-              <el-select-v2 v-model="formData.insuranceproductid" :options="insuranceproductidOptions" clearable>
-              </el-select-v2>
-            </el-form-item>
+			<el-row>
+				<el-col :span="12">
+		            <el-form-item prop="insurancecompanyid" label="保険会社">
+		              <el-select-v2 v-model="formData.insurancecompanyid" :options="insuranceCompanyOptions" clearable>
+		              </el-select-v2>
+		            </el-form-item>
+				</el-col>
+				<el-col :span="12"l>
+		            <el-form-item prop="insuranceproductid" label="保険プラン名">
+		              <el-select-v2 v-model="formData.insuranceproductid" :options="insuranceproductidOptions" clearable>
+		              </el-select-v2>
+		            </el-form-item>
+				</el-col>
+			</el-row>
             <el-form-item prop="insurancepapersno" label="証券番号">
               <el-input v-model="formData.insurancepapersno" />
             </el-form-item>
@@ -252,31 +259,42 @@ const handleCreateOrUpdate = () => {
                 </el-col>
               </el-row>
             </el-form-item>
-
-            <el-form-item prop="contractdate" label="契約日">
-              <el-date-picker
-                v-model="formData.contractdate"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                type="date"
-                size="large"
-              />
-            </el-form-item>
-            <el-form-item prop="insurancestartdate" label="保険開始日">
-              <el-date-picker
-                v-model="formData.insurancestartdate"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                type="date"
-                size="large"
-              />
-            </el-form-item>
-            <el-form-item prop="insuranceamount" label="保険金額">
-              <el-input v-model="formData.insuranceamount" />
-            </el-form-item>
-            <el-form-item prop="paymentcycle" label="支払いサイクル">
-              <el-select-v2 v-model="formData.paymentcycle" :options="paymentcycleOptions"></el-select-v2>
-            </el-form-item>
+			<el-row>
+				<el-col :span="12">
+		            <el-form-item prop="contractdate" label="契約日">
+		              <el-date-picker
+		                v-model="formData.contractdate"
+		                format="YYYY-MM-DD"
+		                value-format="YYYY-MM-DD"
+		                type="date"
+		                size="large"
+		              />
+		            </el-form-item>
+				</el-col>
+				<el-col :span="12">
+		            <el-form-item prop="insurancestartdate" label="保険開始日">
+		              <el-date-picker
+		                v-model="formData.insurancestartdate"
+		                format="YYYY-MM-DD"
+		                value-format="YYYY-MM-DD"
+		                type="date"
+		                size="large"
+		              />
+		            </el-form-item>
+				</el-col>
+			</el-row>
+			<el-row>
+				<el-col :span="12">
+		            <el-form-item prop="insuranceamount" label="保険金額">
+		              <el-input v-model="formData.insuranceamount" />
+		            </el-form-item>
+				</el-col>
+				<el-col :span="12">
+		            <el-form-item prop="paymentcycle" label="支払いサイクル">
+		              <el-select-v2 v-model="formData.paymentcycle" :options="paymentcycleOptions"></el-select-v2>
+		            </el-form-item>
+				</el-col>
+			</el-row>
           </el-collapse-item>
           <el-collapse-item w-full title="被保険者情報" name="2">
             <el-form-item prop="" label="被保険者">
@@ -323,22 +341,38 @@ const handleCreateOrUpdate = () => {
                 <el-radio :value="2" size="large">女</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item prop="phonenumber" label="電話番号">
-              <el-input v-model="formData.phonenumber" />
-            </el-form-item>
-            <el-form-item prop="email" label="メール">
-              <el-input v-model="formData.email" />
-            </el-form-item>
-
-            <el-form-item prop="birthday" label="誕生日">
-              <el-date-picker
-                v-model="formData.birthday"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                type="date"
-                size="large"
-              />
-            </el-form-item>
+			<el-row>
+				<el-col :span="12">
+		            <el-form-item prop="phonenumber" label="電話番号">
+		              <el-input v-model="formData.phonenumber" />
+		            </el-form-item>
+				</el-col>
+				<el-col :span="12">
+		            <el-form-item prop="email" label="メール">
+		              <el-input v-model="formData.email" />
+		            </el-form-item>
+				</el-col>
+			</el-row>
+			<el-row>
+				<el-col :span="8">
+				    <el-form-item prop="insurancecompanyid" label="生年月日">
+				      <el-select-v2 v-model="formData.insurancecompanyid" :options="insuranceCompanyOptions" clearable>
+				      </el-select-v2>
+				    </el-form-item>
+				</el-col>
+				<el-col :span="8">
+				    <el-form-item prop="insurancecompanyid" label="">
+				      <el-select-v2 v-model="formData.insurancecompanyid" :options="insuranceCompanyOptions" clearable>
+				      </el-select-v2>
+				    </el-form-item>
+				</el-col>
+				<el-col :span="8">
+				    <el-form-item prop="insurancecompanyid" label="">
+				      <el-select-v2 v-model="formData.insurancecompanyid" :options="insuranceCompanyOptions" clearable>
+				      </el-select-v2>
+				    </el-form-item>
+				</el-col>
+			</el-row>
             <el-form-item prop="age" label="年齢(保険開始時)">
               <el-input v-model="formData.age" />
             </el-form-item>
@@ -351,26 +385,70 @@ const handleCreateOrUpdate = () => {
             <el-form-item prop="addressmunicipalities" label="">
               <el-input v-model="formData.addressmunicipalities" />
             </el-form-item>
+			<el-form-item prop="addressmunicipalities" label="">
+			  <el-input v-model="formData.addressmunicipalities" />
+			</el-form-item>			
             <el-form-item prop="remarks" label="保険内容">
               <el-input v-model="formData.remarks" type="textarea" size="large" h-full placeholder="Please input" />
             </el-form-item>
           </el-collapse-item>
           <el-collapse-item w-full title="社員情報" name="3">
+			<el-row>
+				<el-col :span="12">
             <el-form-item prop="teamemployeeid" label="社員番号">
               <el-input v-model="formData.employeeid" />
             </el-form-item>
+				</el-col>
+					<el-col :span="12">
+				<el-form-item prop="teamemployeeid" label="社員名">
+				  <el-input v-model="formData.employeeid" />
+				</el-form-item>
+					</el-col>
+			</el-row>
+			<el-row>
+				<el-col :span="12">
+					<el-form-item prop="teamemployeeid" label="共同募集社員番号">
+					  <el-input v-model="formData.employeeid" />
+					</el-form-item>
+				</el-col>
+					<el-col :span="12">
+						<el-form-item prop="teamemployeeid" label="共同募集社員名">
+						  <el-input v-model="formData.employeeid" />
+						</el-form-item>
+					</el-col>
+			</el-row>
           </el-collapse-item>
-          <el-collapse-item w-full title="手数料" name="4">
-            <el-form-item prop="initialcommission" label="初年度手数料">
-              <el-input v-model="formData.initialcommission" />
-            </el-form-item>
-
-            <el-form-item prop="paymentmethod" label="支給方式">
-              <el-radio-group v-model="formData.paymentmethod">
-                <el-radio :value="1">月数支給</el-radio>
-                <el-radio :value="2">比率支給</el-radio>
-              </el-radio-group>
-            </el-form-item>
+				<el-collapse-item w-full title="手数料" name="4">
+					<el-row>
+						<el-col  :span="12">
+						  <el-form-item prop="initialcommission" label="初年度手数料">
+						    <el-input v-model="formData.initialcommission" />
+						  </el-form-item>
+					 	 </el-col>
+					  	<el-col  :span="12">
+							<el-form-item prop="initialcommission" label="支給月数">
+							  <el-input v-model="formData.initialcommission" />
+							</el-form-item>
+						</el-col>
+		  			</el-row>
+					<el-row>
+						<el-col  :span="12">
+							<el-form-item prop="initialcommission" label="総額">
+							  <el-input v-model="formData.initialcommission" />
+							</el-form-item>
+						</el-col>
+						<el-col  :span="12">
+							<el-form-item prop="initialcommission" label="支給比率">
+							  <el-input v-model="formData.initialcommission" />
+							</el-form-item>
+						</el-col>
+					</el-row>
+			<el-form-item prop="paymentmethod" label="支給方式">
+			  <el-radio-group v-model="formData.paymentmethod">
+			    <el-radio :value="1">月数支給</el-radio>
+			    <el-radio :value="2">比率支給</el-radio>
+			  </el-radio-group>
+			</el-form-item>
           </el-collapse-item>
         </el-collapse>
       </el-form>
@@ -409,4 +487,5 @@ const handleCreateOrUpdate = () => {
   display: flex;
   justify-content: flex-end;
 }
+
 </style>
