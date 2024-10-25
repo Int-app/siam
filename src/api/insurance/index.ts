@@ -1,5 +1,5 @@
 import { request } from "@/utils/service"
-import { InsuranceQuery, InsuranceResponseData, InsuranceData } from "./types"
+import { InsuranceQuery, InsuranceResponseData, InsuranceData, resultsType } from "./types"
 import { resOptionType } from "../common"
 
 // list
@@ -73,7 +73,7 @@ export const getInsuranceById = (insurancecontractid: number) => {
 
 // address
 export const getAddressCode = (zipcode: string) => {
-  return request<any>({
+  return request<resultsType>({
     url: `code/zip/${zipcode}`,
     method: "get"
   })

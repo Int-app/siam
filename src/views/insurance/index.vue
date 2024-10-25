@@ -93,16 +93,13 @@ const formRules: FormRules<any> = {
   email: [
     {
       validator: function (rule, value, callback) {
-        if (
-          /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(value) ==
-          false
-        ) {
+        if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value) == false) {
           callback(new Error("メール入力してください"))
         } else {
           callback()
         }
       },
-      trigger: "blur"
+      trigger: "change"
     }
   ]
 }
@@ -169,6 +166,7 @@ watch(
   () => birthday.value.day,
   (newValue) => {
     formData.value.birthday = `${birthday.value.year}/${birthday.value.month}/${birthday.value.day}`
+    formData.value.nowAge = dayjs().year() - Number(birthday.value.year) + 1
   }
 )
 
@@ -180,7 +178,7 @@ const resetSearch = () => {
   searchFormRef.value?.resetFields()
   handleSearch()
 }
-console.log("111")
+
 const handleUpdate = (row: InsuranceData) => {
   loading.value = true
   dialogVisible.value = true
@@ -223,7 +221,9 @@ const resetForm = () => {
 const handleAddressSearch = () => {
   if (formData.value.addresspostcode) {
     getAddressCode(formData.value.addresspostcode).then((res) => {
-      console.log("res", res)
+      formData.value.addressprefecture = res.data.results[0]?.address1
+      formData.value.addressmunicipalities = res.data.results[0]?.address2
+      formData.value.addressother = res.data.results[0]?.address3
     })
   }
 }
@@ -517,7 +517,7 @@ const handleCreateOrUpdate = () => {
               <el-input v-model="formData.age" />
             </el-form-item>
             <el-form-item prop="" label="年齢(現在)">
-              <el-input v-model="formData.nowAge" />
+              <el-input v-model="formData.nowAge" :disabled="true" />
             </el-form-item>
             <el-form-item prop="addresspostcode" label="住所">
               <el-row w-full>
