@@ -2,7 +2,7 @@ import { InsuranceData } from "@/api/insurance/types"
 import { FormRules } from "element-plus"
 
 //#region 增
-export const DEFAULT_FORM_DATA: InsuranceData = {
+export const DEFAULT_FORM_DATA: InsuranceData & { nowAge: number } = {
   insurancecontractid: undefined, // primarykey
   insurancecompanyid: undefined, // 保険会社
   insuranceproductid: "", // 保険プラン名
@@ -12,6 +12,8 @@ export const DEFAULT_FORM_DATA: InsuranceData = {
   contractorfamilyname: "", // 契約者(姓)
   contractorgivenname: "", // 契約者(名)
   relationship: "", // 被保険者relation
+  relationshipother: "", //契約者との関係(補足)
+
   insuredpersonfamilynamek: "", //被保険者(セイ
   insuredpersongivennamek: "", // 被保険者(メイ)
   insuredpersonfamilyname: "", //被保険者(姓)
@@ -25,8 +27,7 @@ export const DEFAULT_FORM_DATA: InsuranceData = {
   insurancestartdate: "", // 保険開始日
   iscanceled: 0, //解約フラグ
   cancellationdate: "", //解約日
-  paymentcycle: 0, //支払いサイクル
-  relationshipother: "", //契約者との関係(補足)
+  paymentcycle: undefined, //支払いサイクル
   insuranceamount: 0, //保険金額
   addresspostcode: "", //住所(郵便番号)
   addressprefecture: "", // 住所(都道府県)
@@ -40,7 +41,10 @@ export const DEFAULT_FORM_DATA: InsuranceData = {
   paymentmonths: 0, // 支給月数
   totalamount: 0, //総額
   paymentpercentage: 0, //支給比率
-  deleteflag: 0 //論理削除Flg
+  deleteflag: 0, //論理削除Flg,
+  employeeName: "", //社員名
+  teamemployeeName: "", //共同募集社員名
+  nowAge: 0
 }
 
 export const relationOptions = [
@@ -57,23 +61,3 @@ export const paymentcycleOptions = [
   { label: "月払い", value: 1 },
   { label: "年払い", value: 2 }
 ]
-
-export const formRules: FormRules<any> = {
-  insurancecompanyid: [{ required: true, message: "保険会社入力してください" }],
-  contractorfamilyname: [{ required: true, message: "契約者(姓)入力してください" }],
-  contractorgivenname: [{ required: true, message: "契約者(名)入力してください" }],
-  contractorfamilynamek: [{ required: true, message: "契約者(セイ)入力してください" }],
-  contractorgivennamek: [{ required: true, message: "契約者(メイ)入力してください" }],
-  contractdate: [{ required: true, message: "契約日選択してください" }],
-  insurancestartdate: [{ required: true, message: "保険開始日選択してください" }],
-  insuranceamount: [{ required: true, message: "保険金額入力してください" }],
-  relationship: [{ required: true, message: "契約者との関係選択してください" }],
-  insuredpersonfamilyname: [{ required: true, message: "被保険者(姓)入力してください" }],
-  insuredpersongivenname: [{ required: true, message: "被保険者(名)入力してください" }],
-  insuredpersonfamilynamek: [{ required: true, message: "被保険者(セイ)入力してください" }],
-  insuredpersongivennamek: [{ required: true, message: "被保険者(メイ)入力してください" }],
-  sex: [{ required: true, message: "性別選択してください" }],
-  employeeid: [{ required: true, message: "社員番号入力してください" }],
-  initialcommission: [{ required: true, message: "初年度手数料入力してください" }],
-  paymentmethod: [{ required: true, message: "支給方式選択してください" }] //
-}

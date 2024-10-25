@@ -83,7 +83,7 @@ export interface InsuranceData {
   cancellationdate: string
 
   /**  支払いサイクル */
-  paymentcycle: number
+  paymentcycle?: number
 
   /**  契約者との関係(補足)  */
   relationshipother: string
@@ -129,6 +129,12 @@ export interface InsuranceData {
 
   /** 論理削除Flg */
   deleteflag: number
+
+  /** 社員名 */
+  employeeName: string
+
+  /**共同募集社員名 */
+  teamemployeeName: string
 }
 
 export type InsuranceResponseData = ApiResponseData<{ list: InsuranceData[] } & PaginationType>

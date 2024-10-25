@@ -62,3 +62,19 @@ export const getInsuranceproductList = (data: string) => {
     data
   })
 }
+
+// selectById
+export const getInsuranceById = (insurancecontractid: number) => {
+  return request<{ data: InsuranceData }>({
+    url: `insurance/get/${insurancecontractid}`,
+    method: "post"
+  })
+}
+
+// address
+export const getAddressCode = (zipcode: string) => {
+  return request<any>({
+    url: `code/zip/${zipcode}`,
+    method: "get"
+  })
+}
