@@ -13,15 +13,32 @@ export const useUserStore = defineStore("user", () => {
   const token = ref<string>(getToken() || "")
   const roles = ref<string[]>([])
   const username = ref<string>("")
+  const role = ref<string>("2")
+  const employeeId = ref<string>("")
+  const employeeName = ref<string>("")
+  const introduceremployeeid = ref<string>("")
+  const introduceremployeeName = ref<string>("")
 
   const tagsViewStore = useTagsViewStore()
   const settingsStore = useSettingsStore()
 
-  /** 登录 */
+  /** ログイン */
   const login = async ({ username, password }: LoginRequestData) => {
     const { data } = await loginApi({ username, password })
     setToken(data.token)
     token.value = data.token
+    role.value = data.role
+    if(data.role === "003"){
+       employeeId.value = data.employeeId
+       employeeName.value = data.employeeName
+	   introduceremployeeid.value = data.introduceremployeeid
+	   introduceremployeeName.value = data.introduceremployeeName
+    } else {
+       employeeId.value = ""
+       employeeName.value = "" 
+	   introduceremployeeid.value = ""
+	   introduceremployeeName.value = ""
+    }
   }
   /** 获取用户详情 */
   const getInfo = async () => {
@@ -60,7 +77,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { token, roles, username, login, getInfo, changeRoles, logout, resetToken }
+  return { token, roles, username, login, getInfo, changeRoles, logout, role, employeeId, employeeName, introduceremployeeid, introduceremployeeName, resetToken }
 })
 
 /** 在 setup 外使用 */
