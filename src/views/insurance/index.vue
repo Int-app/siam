@@ -195,6 +195,7 @@ const handleCreat = () => {
   formData.value.teamemployeeid = userStore.introduceremployeeid
   formData.value.teamemployeeName = userStore.introduceremployeeName
   formData.value.nowAge = undefined
+  activeNames.value = ["1"]
   formRef.value?.resetFields()
 }
 
@@ -205,10 +206,10 @@ const handleUpdate = (row: InsuranceData) => {
   getInsuranceById(row.insurancecontractid).then((res) => {
     formData.value = res.data
     if (res.data.birthday?.length > 0) {
-      const ymrDate = dayjs(res.data.birthday, "YYYY/MM/DD")
+      const ymrDate = dayjs(res.data.birthday)
       birthday.value.year = ymrDate.year().toString()
-      birthday.value.month = ymrDate.month().toString()
-      birthday.value.day = ymrDate.day().toString()
+      birthday.value.month = (ymrDate.month() + 1).toString()
+      birthday.value.day = ymrDate.date().toString()
     }
   })
 }
@@ -540,11 +541,25 @@ const handleCreateOrUpdate = () => {
             <el-form-item label="生年月日">
               <el-row w-full :gutter="10">
                 <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-                  <el-select-v2 v-model="birthday.year" :options="yearOption" filterable placeholder="年" clearable>
+                  <el-select-v2
+                    v-model="birthday.year"
+                    :options="yearOption"
+                    filterable
+                    placeholder="年"
+                    clearable
+                    @change="() => (birthday.day = '')"
+                  >
                   </el-select-v2>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
-                  <el-select-v2 v-model="birthday.month" :options="monthOption" filterable placeholder="月" clearable>
+                  <el-select-v2
+                    v-model="birthday.month"
+                    :options="monthOption"
+                    filterable
+                    placeholder="月"
+                    clearable
+                    @change="() => (birthday.day = '')"
+                  >
                   </el-select-v2>
                 </el-col>
                 <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
