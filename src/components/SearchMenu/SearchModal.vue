@@ -162,14 +162,14 @@ const handleReleaseUpOrDown = () => {
     class="search-modal__private"
     append-to-body
   >
-    <el-input ref="inputRef" v-model="keyword" @input="handleSearch" placeholder="搜索菜单" size="large" clearable>
+    <el-input ref="inputRef" v-model="keyword" @input="handleSearch" placeholder="検索" size="large" clearable>
       <template #prefix>
         <SvgIcon name="search" />
       </template>
     </el-input>
-    <el-empty v-if="resultList.length === 0" description="暂无搜索结果" :image-size="100" />
+    <el-empty v-if="resultList.length === 0" description="検索結果なし" :image-size="100" />
     <template v-else>
-      <p>搜索结果</p>
+      <p>検索結果</p>
       <el-scrollbar ref="scrollbarRef" max-height="40vh" always>
         <SearchResult
           ref="searchResultRef"

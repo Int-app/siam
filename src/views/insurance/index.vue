@@ -33,25 +33,6 @@ const insuranceproductidOptions = ref<OptionType[]>([])
 
 const activeNames = ref<CollapseModelValue>(["1"])
 const handleChange = (val: CollapseModelValue) => {
-  // const collapse1Data = [
-  //   "insurancecompanyid",
-  //   "contractorfamilyname",
-  //   "contractorgivenname",
-  //   "contractorfamilynamek",
-  //   "contractorgivennamek",
-  //   "contractdate",
-  //   "insurancestartdate",
-  //   "insuranceamount"
-  // ]
-
-  // formRef.value?.validateField(collapse1Data, (error) => {
-  //   if (!error) {
-  //     activeNames.value = ["1"]
-  //     return
-  //   }
-
-  //   activeNames.value = val
-  // })
   console.log("val", val)
 }
 
@@ -206,10 +187,15 @@ const resetSearch = () => {
 
 const handleCreat = () => {
   dialogVisible.value = true
+  birthday.value.year = ""
+  birthday.value.month = ""
+  birthday.value.day = ""
   formData.value.employeeid = userStore.employeeId
   formData.value.employeeName = userStore.employeeName
   formData.value.teamemployeeid = userStore.introduceremployeeid
   formData.value.teamemployeeName = userStore.introduceremployeeName
+  formData.value.nowAge = undefined
+  formRef.value?.resetFields()
 }
 
 const handleUpdate = (row: InsuranceData) => {
@@ -259,6 +245,11 @@ const handleAddressSearch = () => {
 
 const handleBlurChange = () => {
   console.log("aaa", birthday.value)
+}
+
+const handleEmployeeidChange = () => {
+  formData.value.employeeName =
+    insuranceCompanyOptions.value.find((item) => item.value === formData.value.employeeid)?.label ?? ""
 }
 
 // -------------------------------modal----------------------------
@@ -615,17 +606,16 @@ const handleCreateOrUpdate = () => {
             <el-row :gutter="10">
               <el-col v-bind="baseLayout">
                 <el-form-item prop="employeeid" label="社員番号">
-                  <el-input
-                    :disabled="isDisabledUser"
-                    :maxlength="8"
+                  <el-select-v2
                     v-model="formData.employeeid"
-                    oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+                    :options="insuranceCompanyOptions"
+                    @change="handleEmployeeidChange"
                   />
                 </el-form-item>
               </el-col>
               <el-col v-bind="baseLayout">
                 <el-form-item prop="employeeName" label="社員名">
-                  <el-input :disabled="isDisabledUser" v-model="formData.employeeName" />
+                  <el-input :disabled="true" v-model="formData.employeeName" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -642,7 +632,7 @@ const handleCreateOrUpdate = () => {
               </el-col>
               <el-col v-bind="baseLayout">
                 <el-form-item prop="teamemployeeName" label="共同募集社員名">
-                  <el-input :disabled="isDisabledUser" v-model="formData.teamemployeeName" />
+                  <el-input :disabled="true" v-model="formData.teamemployeeName" />
                 </el-form-item>
               </el-col>
             </el-row>
