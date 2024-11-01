@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { reactive, ref, onMounted, watch } from "vue"
-import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight } from "@element-plus/icons-vue"
+import { reactive, ref, onMounted, watch, computed } from "vue"
+import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } from "@element-plus/icons-vue"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
-import type { InsuranceCompanyInterface, OptionType, TableData } from "./types"
-import type { InsuranceData } from "@/api/insurance/types"
+import type { InsuranceCompanyInterface, OptionType } from "./types"
+import type { InsuranceData, TableData } from "@/api/insurance/types"
 import { cloneDeep } from "lodash-es"
 import { usePagination } from "@/hooks/usePagination"
 import {
@@ -17,22 +17,12 @@ import {
   getAddressCode
 } from "@/api/insurance"
 import { getLastDay, mapDataToOption } from "./utils"
-import { DEFAULT_FORM_DATA, relationOptions, paymentcycleOptions } from "./constants"
-import { computed } from "vue"
-import useStore from "element-plus/es/components/table/src/store/index.mjs"
-import {useUserStore} from "@/store/modules/user"
-import {loginApi} from "@/api/login"
-const userStore = useUserStore()
-
-const baseLayout = {
-  xs: 24,
-  sm: 12,
-  md: 12,
-  lg: 12,
-  xl: 12
-}
+import { DEFAULT_FORM_DATA, relationOptions, paymentcycleOptions, baseLayout } from "./constants"
+import { useUserStore } from "@/store/modules/user"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
+const userStore = useUserStore()
+
 const loading = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const searchFormRef = ref<FormInstance | null>(null)
@@ -41,9 +31,28 @@ const dialogVisible = ref<boolean>(false)
 const insuranceCompanyOptions = ref<OptionType[]>([])
 const insuranceproductidOptions = ref<OptionType[]>([])
 
-const activeNames = ref(["1"])
+const activeNames = ref<CollapseModelValue>(["1"])
 const handleChange = (val: CollapseModelValue) => {
-  console.log(val)
+  // const collapse1Data = [
+  //   "insurancecompanyid",
+  //   "contractorfamilyname",
+  //   "contractorgivenname",
+  //   "contractorfamilynamek",
+  //   "contractorgivennamek",
+  //   "contractdate",
+  //   "insurancestartdate",
+  //   "insuranceamount"
+  // ]
+
+  // formRef.value?.validateField(collapse1Data, (error) => {
+  //   if (!error) {
+  //     activeNames.value = ["1"]
+  //     return
+  //   }
+
+  //   activeNames.value = val
+  // })
+  console.log("val", val)
 }
 
 const searchData = reactive({
@@ -62,18 +71,22 @@ const birthday = ref({
 const yearOption = new Array(dayjs().get("year"))
   .fill(0)
   .map((_, index) => ({ label: index + 1, value: String(index + 1) }))
+  .filter((_, index) => index >= 1900)
 const monthOption = new Array(12).fill(0).map((_, index) => ({ label: index + 1, value: String(index + 1) }))
 
 const formData = ref<InsuranceData & { nowAge?: number }>(cloneDeep(DEFAULT_FORM_DATA))
 const tableData = ref<TableData[]>([])
 
-const isDisabledInsuredpersonName = computed(() => Number(formData.value.relationship) === relationOptions[0].value)
+const isDisabledInsuredpersonName = computed(() => {
+  if (formData.value.relationship.length === 0) return false
+
+  const res = Number(formData.value.relationship) === relationOptions[0].value
+  return res
+})
 const isDisabledRelationshipother = computed(
-  () =>
-    Number(formData.value.relationship) === relationOptions[relationOptions.length - 1].value ||
-    isDisabledInsuredpersonName.value
+  () => Number(formData.value.relationship) !== relationOptions[relationOptions.length - 1].value
 )
-const formRules: FormRules<any> = {
+const formRules = {
   insurancecompanyid: [{ required: true, message: "保険会社入力してください" }],
   contractorfamilyname: [{ required: true, message: "契約者(姓)入力してください" }],
   contractorgivenname: [{ required: true, message: "契約者(名)入力してください" }],
@@ -83,12 +96,10 @@ const formRules: FormRules<any> = {
   insurancestartdate: [{ required: true, message: "保険開始日選択してください" }],
   insuranceamount: [{ required: true, message: "保険金額入力してください" }],
   relationship: [{ required: true, message: "契約者との関係選択してください" }],
-  insuredpersonfamilyname: [{ required: isDisabledInsuredpersonName.value, message: "被保険者(姓)入力してください" }],
-  insuredpersongivenname: [{ required: isDisabledInsuredpersonName.value, message: "被保険者(名)入力してください" }],
-  insuredpersonfamilynamek: [
-    { required: isDisabledInsuredpersonName.value, message: "被保険者(セイ)入力してください" }
-  ],
-  insuredpersongivennamek: [{ required: isDisabledInsuredpersonName.value, message: "被保険者(メイ)入力してください" }],
+  insuredpersonfamilyname: [{ required: true, message: "被保険者(姓)入力してください" }],
+  insuredpersongivenname: [{ required: true, message: "被保険者(名)入力してください" }],
+  insuredpersonfamilynamek: [{ required: true, message: "被保険者(セイ)入力してください" }],
+  insuredpersongivennamek: [{ required: true, message: "被保険者(メイ)入力してください" }],
   sex: [{ required: true, message: "性別選択してください" }],
   employeeid: [{ required: true, message: "社員番号入力してください" }],
   teamemployeeid: [{ required: true, message: "共同募集社員番号入力してください" }],
@@ -96,14 +107,14 @@ const formRules: FormRules<any> = {
   paymentmethod: [{ required: true, message: "支給方式選択してください" }],
   email: [
     {
-      validator: function (rule, value, callback) {
+      validator: function (rule: any, value: string, callback: (arg?: Error) => void) {
         if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value) == false) {
           callback(new Error("メール入力してください"))
         } else {
           callback()
         }
       },
-      trigger: "change"
+      trigger: "blur"
     }
   ]
 }
@@ -145,13 +156,17 @@ watch(
   }
 )
 
-const isDisabledHi = computed(() => (birthday.value.year.length > 0 && birthday.value.month.length > 0 ? false : true))
+const isDisabledHi = computed(() =>
+  birthday.value.year?.length > 0 && birthday.value.month?.length > 0 ? false : true
+)
 
 const hiOption = computed(() => {
   const lastIndex = getLastDay(Number(birthday.value.year), Number(birthday.value.month))
   const arr = new Array(lastIndex).fill(0).map((_, index) => ({ label: index + 1, value: String(index + 1) }))
   return arr
 })
+
+const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
 
 const getTableData = () => {
   loading.value = true
@@ -164,7 +179,13 @@ const getTableData = () => {
     .finally(() => (loading.value = false))
 }
 
-watch([() => paginationData.pageNum, () => paginationData.pageSize], getTableData, { immediate: true })
+watch(
+  [paginationData.pageNum, paginationData.pageSize],
+  () => {
+    getTableData()
+  },
+  { immediate: true }
+)
 
 watch(
   () => birthday.value.day,
@@ -184,36 +205,33 @@ const resetSearch = () => {
 }
 
 const handleCreat = () => {
-     dialogVisible.value = true
-     formData.value.employeeid = userStore.employeeId
-     formData.value.employeeName = userStore.employeeName
-	 formData.value.teamemployeeid = userStore.introduceremployeeid
-	 formData.value.teamemployeeName = userStore.introduceremployeeName
+  dialogVisible.value = true
+  formData.value.employeeid = userStore.employeeId
+  formData.value.employeeName = userStore.employeeName
+  formData.value.teamemployeeid = userStore.introduceremployeeid
+  formData.value.teamemployeeName = userStore.introduceremployeeName
 }
 
 const handleUpdate = (row: InsuranceData) => {
-  loading.value = true
   dialogVisible.value = true
   if (!row.insurancecontractid) return
 
-  getInsuranceById(row.insurancecontractid)
-    .then((res) => {
-      formData.value = res.data
-      if (res.data.birthday?.length > 0) {
-        const ymrDate = dayjs(res.data.birthday, "YYYY/MM/DD")
-        birthday.value.year = ymrDate.year().toString()
-        birthday.value.month = ymrDate.month().toString()
-        birthday.value.day = ymrDate.day().toString()
-      }
-    })
-    .finally(() => (loading.value = false))
+  getInsuranceById(row.insurancecontractid).then((res) => {
+    formData.value = res.data
+    if (res.data.birthday?.length > 0) {
+      const ymrDate = dayjs(res.data.birthday, "YYYY/MM/DD")
+      birthday.value.year = ymrDate.year().toString()
+      birthday.value.month = ymrDate.month().toString()
+      birthday.value.day = ymrDate.day().toString()
+    }
+  })
 }
 
 //#region 删
 const handleDelete = (row: InsuranceData) => {
-  ElMessageBox.confirm(`削除しますか？`, "提示", {
+  ElMessageBox.confirm(`削除しますか？`, "ヒント", {
     confirmButtonText: "確定",
-    cancelButtonText: "取消",
+    cancelButtonText: "キャンセル",
     type: "warning"
   }).then(() => {
     if (row.insurancecontractid) {
@@ -239,6 +257,10 @@ const handleAddressSearch = () => {
   }
 }
 
+const handleBlurChange = () => {
+  console.log("aaa", birthday.value)
+}
+
 // -------------------------------modal----------------------------
 
 const handleCreateOrUpdate = () => {
@@ -260,46 +282,48 @@ const handleCreateOrUpdate = () => {
       .finally(() => (loading.value = false))
   })
 }
-
-const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
-
 </script>
 
 <template>
   <div class="app-container">
     <el-card v-loading="loading" shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
-         <el-row>
-           <el-col v-bind="baseLayout">
-	            <el-form-item prop="username" label="保険会社">
-				  <el-select-v2 v-model="searchData.insuranceCompanyName" :options="insuranceCompanyOptions"  style="width: 200px" clearable>
-				  </el-select-v2>
-	            </el-form-item>
-			</el-col>
-			<el-col v-bind="baseLayout">
-	            <el-form-item prop="phone" label="保単番号">
-	              <el-input v-model="searchData.insurancecontractnumber"/>
-	            </el-form-item>
-			</el-col>
+        <el-row>
+          <el-col v-bind="baseLayout">
+            <el-form-item prop="insuranceCompanyName" label="保険会社">
+              <el-select-v2
+                v-model="searchData.insuranceCompanyName"
+                :options="insuranceCompanyOptions"
+                style="width: 200px"
+                clearable
+              >
+              </el-select-v2>
+            </el-form-item>
+          </el-col>
+          <el-col v-bind="baseLayout">
+            <el-form-item prop="insurancecontractnumber" label="保単番号">
+              <el-input v-model="searchData.insurancecontractnumber" />
+            </el-form-item>
+          </el-col>
         </el-row>
-		<el-row>
-			<el-col v-bind="baseLayout">
-				<el-form-item prop="phone" label="員工番号">
-				  <el-input v-model="searchData.employeeId"/>
-				</el-form-item>
-			</el-col>
-			<el-col v-bind="baseLayout">
-	            <el-form-item prop="phone" label="員工姓名">
-	              <el-input v-model="searchData.employeeName"/>
-	            </el-form-item>
-			</el-col>
+        <el-row>
+          <el-col v-bind="baseLayout">
+            <el-form-item prop="employeeId" label="員工番号">
+              <el-input v-model="searchData.employeeId" />
+            </el-form-item>
+          </el-col>
+          <el-col v-bind="baseLayout">
+            <el-form-item prop="employeeName" label="員工姓名">
+              <el-input v-model="searchData.employeeName" />
+            </el-form-item>
+          </el-col>
         </el-row>
-		<el-row type="flex" justify="end">
-			<el-form-item>
-			  <el-button type="primary" :icon="Search" @click="handleSearch">検索</el-button>
-			  <el-button :icon="Refresh" @click="resetSearch">クリア</el-button>
-			</el-form-item>
-		</el-row>
+        <el-row type="flex" justify="end">
+          <el-form-item>
+            <el-button type="primary" :icon="Search" @click="handleSearch">検索</el-button>
+            <el-button :icon="Refresh" @click="resetSearch">クリア</el-button>
+          </el-form-item>
+        </el-row>
       </el-form>
     </el-card>
 
@@ -311,7 +335,7 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
       </div>
       <div class="table-wrapper">
         <el-table :data="tableData">
-          <el-table-column prop="insurancecompanyid" label="保険会社" align="center" />
+          <el-table-column prop="insurancecompanyName" label="保険会社" align="center" />
           <el-table-column prop="insuranceproductid" label="保険プラン名" align="center" :width="120" />
           <el-table-column prop="insurancepapersno" label="証券番号" align="center" />
           <el-table-column prop="contractorfamilyname" label="契約者名(カタカナ)" align="center" :width="150" />
@@ -324,8 +348,12 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
           <el-table-column prop="email" label="メール" align="center" />
           <el-table-column fixed="right" label="操作" :width="150" align="center">
             <template #default="scope">
-              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">編集</el-button>
-              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">削除</el-button>
+              <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
+                <el-icon><Edit /></el-icon>
+              </el-button>
+              <el-button type="danger" text bg size="small" @click="handleDelete(scope.row)">
+                <el-icon><Delete /></el-icon>
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -345,6 +373,7 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
       v-model="dialogVisible"
       :title="formData.insurancecontractid === undefined ? '新規' : '編集'"
       @closed="resetForm"
+      :open-delay="500"
       width="60%"
     >
       <el-form
@@ -357,7 +386,7 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
         hide-required-asterisk
         class="modal-form"
       >
-        <el-collapse w-full v-model="activeNames" @change="handleChange" simple>
+        <el-collapse w-full v-bind:model-value="activeNames" @change="handleChange" simple>
           <el-collapse-item w-full title="契約情報" name="1">
             <el-form-item v-show="false" prop="insurancecontractid" label="primarykey">
               <el-input v-model="formData.insurancecontractid" />
@@ -376,13 +405,13 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
                 </el-form-item>
               </el-col>
             </el-row>
-			<el-row>
-				<el-col v-bind="baseLayout">
-		            <el-form-item prop="insurancepapersno" label="証券番号">
-		              <el-input v-model="formData.insurancepapersno" />
-		            </el-form-item>
-				</el-col>
-			</el-row>
+            <el-row>
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="insurancepapersno" label="証券番号">
+                  <el-input v-model="formData.insurancepapersno" />
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-form-item prop="" label="契約者名">
               <el-row :gutter="10" w-full>
                 <el-col v-bind="baseLayout">
@@ -397,13 +426,13 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
                     <el-input v-model="formData.contractorgivennamek" />
                   </el-form-item>
                 </el-col>
-                <el-col v-bind="baseLayout">
+                <el-col v-bind="baseLayout" :mt="2">
                   <div>契約者(姓)</div>
                   <el-form-item prop="contractorfamilyname" label="">
                     <el-input v-model="formData.contractorfamilyname" />
                   </el-form-item>
                 </el-col>
-                <el-col v-bind="baseLayout">
+                <el-col v-bind="baseLayout" :mt="2">
                   <div>契約者(名)</div>
                   <el-form-item prop="contractorgivenname" label="">
                     <el-input v-model="formData.contractorgivenname" />
@@ -473,13 +502,13 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
                   <div>&nbsp;</div>
                   <el-select-v2 :options="[]" v-show="false"> </el-select-v2>
                 </el-col>
-                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" :mt="2">
                   <div>被保険者(姓)</div>
                   <el-form-item prop="insuredpersonfamilyname" label="">
                     <el-input v-model="formData.insuredpersonfamilyname" :disabled="isDisabledInsuredpersonName" />
                   </el-form-item>
                 </el-col>
-                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
+                <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8" :mt="2">
                   <div>被保険者(名)</div>
                   <el-form-item prop="insuredpersongivenname" label="">
                     <el-input v-model="formData.insuredpersongivenname" :disabled="isDisabledInsuredpersonName" />
@@ -535,6 +564,7 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
                     filterable
                     placeholder="日"
                     clearable
+                    @blur="handleBlurChange"
                   >
                   </el-select-v2>
                 </el-col>
@@ -562,18 +592,10 @@ const isDisabledUser = computed(() => (userStore.role === "003" ? true : false))
               </el-row>
             </el-form-item>
             <el-form-item prop="addressprefecture" label="">
-              <el-input
-                :maxlength="100"
-                v-model="formData.addressprefecture"
-                placeholder="住所(都道府県)"
-              />
+              <el-input :maxlength="100" v-model="formData.addressprefecture" placeholder="住所(都道府県)" />
             </el-form-item>
             <el-form-item prop="addressmunicipalities" label="">
-              <el-input
-                :maxlength="100"
-                v-model="formData.addressmunicipalities"
-                placeholder="住所(市区町村)"
-              />
+              <el-input :maxlength="100" v-model="formData.addressmunicipalities" placeholder="住所(市区町村)" />
             </el-form-item>
             <el-form-item prop="addressother" label="">
               <el-input :maxlength="100" v-model="formData.addressother" placeholder="住所(番地以降)" />

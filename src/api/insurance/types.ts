@@ -19,8 +19,11 @@ export interface InsuranceData {
   /** primarykey */
   insurancecontractid?: number
 
-  /**保険会社 */
+  /**保険会社id */
   insurancecompanyid?: number
+
+  /** 保険会社name */
+  insurancecompanyName?: string
 
   /**保険プラン名 */
   insuranceproductid: string
@@ -56,7 +59,7 @@ export interface InsuranceData {
   insuredpersongivenname: string
 
   /**  年齢(保険開始時) */
-  age: number
+  age?: number
 
   /**性別 */
   sex: number
@@ -89,7 +92,7 @@ export interface InsuranceData {
   relationshipother: string
 
   /** 保険金額 */
-  insuranceamount: number
+  insuranceamount?: number
 
   /** 住所(郵便番号) */
   addresspostcode: string
@@ -113,19 +116,19 @@ export interface InsuranceData {
   teamemployeeid: string
 
   /** 初年度手数料 */
-  initialcommission: number
+  initialcommission?: number
 
   /** 支給方式 */
   paymentmethod: number
 
   /** 支給月数 */
-  paymentmonths: number
+  paymentmonths?: number
 
   /** 総額 */
-  totalamount: number
+  totalamount?: number
 
   /**  支給比率 */
-  paymentpercentage: number
+  paymentpercentage?: number
 
   /** 論理削除Flg */
   deleteflag: number
@@ -137,7 +140,12 @@ export interface InsuranceData {
   teamemployeeName: string
 }
 
-export type InsuranceResponseData = ApiResponseData<{ list: InsuranceData[] } & PaginationType>
+export type TableData = Omit<
+  InsuranceData,
+  "customerbirthday" | "contractdate" | "contractamount" | "customeraddress" | "contractdetail" | "employeeid"
+>
+
+export type InsuranceResponseData = ApiResponseData<{ list: TableData[] } & PaginationType>
 
 export type resultsType = ApiResponseData<{
   results: {
