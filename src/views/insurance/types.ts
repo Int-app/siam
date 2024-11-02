@@ -3,4 +3,4 @@ export interface InsuranceCompanyInterface {
   InsuranceCompanyName: string
 }
 
-export type OptionType = { label: string; value: any; disabled?: boolean }
+export type OptionType = { label: string; value: any; disabled?: boolean; text?: any }

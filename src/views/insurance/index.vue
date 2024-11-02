@@ -110,7 +110,8 @@ onMounted(() => {
 
 onMounted(() => {
   getEmployeeInfoList().then((res) => {
-    employeeInfoOptions.value = mapDataToOption(res.data)
+    // employeeInfoOptions.value = mapDataToOption(res.data)
+    employeeInfoOptions.value = res.data.map((item) => ({ label: item.value, value: item.value, text: item.text }))
   })
 })
 
@@ -258,14 +259,13 @@ const handleBlurChange = () => {
 
 const handleEmployeeidChange = () => {
   formData.value.employeeName =
-    employeeInfoOptions.value.find((item) => item.value === formData.value.employeeid)?.label ?? ""
+    employeeInfoOptions.value.find((item) => item.value === formData.value.employeeid)?.text ?? ""
 }
 
 const handleTeamemployeeidChange = () => {
   formData.value.teamemployeeName =
-    employeeInfoOptions.value.find((item) => item.value === formData.value.teamemployeeid)?.label ?? ""
+    employeeInfoOptions.value.find((item) => item.value === formData.value.teamemployeeid)?.text ?? ""
 }
-
 
 // -------------------------------modal----------------------------
 
@@ -352,7 +352,7 @@ const handleCreateOrUpdate = () => {
           <el-table-column prop="sex" label="性別" align="center" />
           <el-table-column prop="phonenumber" label="電話番号" align="center" :width="120" />
           <el-table-column prop="email" label="メール" align="center" :width="150" />
-          <el-table-column fixed="right" label="操作"  align="center" :width="130">
+          <el-table-column fixed="right" label="操作" align="center" :width="130">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
                 <el-icon><Edit /></el-icon>
@@ -419,29 +419,29 @@ const handleCreateOrUpdate = () => {
               </el-col>
             </el-row>
             <el-row :gutter="10">
-                <el-col v-bind="baseLayout">
-                  <el-form-item prop="contractorfamilynamek" label="契約者名">
-                    <el-input v-model="formData.contractorfamilynamek" placeholder="契約者(セイ)"/>
-                  </el-form-item>
-                </el-col>
-                <el-col v-bind="baseLayout">
-                  <el-form-item prop="contractorgivennamek">
-                    <el-input v-model="formData.contractorgivennamek" placeholder="契約者(メイ)" />
-                  </el-form-item>
-                </el-col>
-			</el-row>
-			<el-row :gutter="10">
-                <el-col v-bind="baseLayout">
-                  <el-form-item prop="contractorfamilyname" label="">
-                    <el-input v-model="formData.contractorfamilyname" placeholder="契約者(姓)" />
-                  </el-form-item>
-                </el-col>
-                <el-col v-bind="baseLayout">
-                  <el-form-item prop="contractorgivenname" label="">
-                    <el-input v-model="formData.contractorgivenname"  placeholder="契約者(名)" />
-                  </el-form-item>
-                </el-col>
-             </el-row>
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="contractorfamilynamek" label="契約者名">
+                  <el-input v-model="formData.contractorfamilynamek" placeholder="契約者(セイ)" />
+                </el-form-item>
+              </el-col>
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="contractorgivennamek">
+                  <el-input v-model="formData.contractorgivennamek" placeholder="契約者(メイ)" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="contractorfamilyname" label="">
+                  <el-input v-model="formData.contractorfamilyname" placeholder="契約者(姓)" />
+                </el-form-item>
+              </el-col>
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="contractorgivenname" label="">
+                  <el-input v-model="formData.contractorgivenname" placeholder="契約者(名)" />
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-row :gutter="10">
               <el-col v-bind="baseLayout">
                 <el-form-item prop="contractdate" label="契約日">
@@ -480,38 +480,37 @@ const handleCreateOrUpdate = () => {
             </el-row>
           </el-collapse-item>
           <el-collapse-item w-full title="被保険者情報" name="2">
-			<el-row>
-			  <el-col v-bind="baseLayout">
-			    <el-form-item  label="被保険者名">
-			      <el-select-v2 v-model="formData.relationship" :options="relationOptions" clearable>
-			      </el-select-v2>
-			    </el-form-item>
-			  </el-col>
-			</el-row>
-			<el-row :gutter="10">
-			     <el-col v-bind="baseLayout">
-			       <el-form-item prop="insuredpersonfamilynamek" label="">
-			         <el-input v-model="formData.insuredpersonfamilynamek" placeholder="被保険者(セイ)"/>
-			       </el-form-item>
-			     </el-col>
-			     <el-col v-bind="baseLayout">
-			       <el-form-item prop="insuredpersongivennamek">
-			         <el-input v-model="formData.insuredpersongivennamek" placeholder="被保険者(メイ)" />
-			       </el-form-item>
-			     </el-col>
-			</el-row>
-			<el-row :gutter="10">
-			     <el-col v-bind="baseLayout">
-			       <el-form-item prop="insuredpersonfamilyname" label="">
-			         <el-input v-model="formData.insuredpersonfamilyname" placeholder="被保険者(姓)" />
-			       </el-form-item>
-			     </el-col>
-			     <el-col v-bind="baseLayout">
-			       <el-form-item prop="insuredpersongivenname" label="">
-			         <el-input v-model="formData.insuredpersongivenname"  placeholder="被保険者(名)" />
-			       </el-form-item>
-			     </el-col>
-			  </el-row>
+            <el-row>
+              <el-col v-bind="baseLayout">
+                <el-form-item label="被保険者名">
+                  <el-select-v2 v-model="formData.relationship" :options="relationOptions" clearable> </el-select-v2>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="insuredpersonfamilynamek" label="">
+                  <el-input v-model="formData.insuredpersonfamilynamek" placeholder="被保険者(セイ)" />
+                </el-form-item>
+              </el-col>
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="insuredpersongivennamek">
+                  <el-input v-model="formData.insuredpersongivennamek" placeholder="被保険者(メイ)" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="10">
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="insuredpersonfamilyname" label="">
+                  <el-input v-model="formData.insuredpersonfamilyname" placeholder="被保険者(姓)" />
+                </el-form-item>
+              </el-col>
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="insuredpersongivenname" label="">
+                  <el-input v-model="formData.insuredpersongivenname" placeholder="被保険者(名)" />
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-form-item prop="relationshipother" label="契約者との関係(補足)">
               <el-input
                 :disabled="isDisabledRelationshipother"
@@ -580,18 +579,18 @@ const handleCreateOrUpdate = () => {
                 </el-col>
               </el-row>
             </el-form-item>
-			<el-row :gutter="10">
-				<el-col v-bind="baseLayout">
-		            <el-form-item prop="age" label="年齢(保険開始時)">
-		              <el-input v-model="formData.age" />
-		            </el-form-item>
-				</el-col>
-				<el-col v-bind="baseLayout">
-		            <el-form-item prop="" label="年齢(現在)">
-		              <el-input v-model="formData.nowAge" :disabled="true" />
-		            </el-form-item>
-				</el-col>
-			</el-row>
+            <el-row :gutter="10">
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="age" label="年齢(保険開始時)">
+                  <el-input v-model="formData.age" />
+                </el-form-item>
+              </el-col>
+              <el-col v-bind="baseLayout">
+                <el-form-item prop="" label="年齢(現在)">
+                  <el-input v-model="formData.nowAge" :disabled="true" />
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-form-item prop="addresspostcode" label="住所">
               <el-row w-full>
                 <el-col :span="8">
@@ -647,11 +646,11 @@ const handleCreateOrUpdate = () => {
             <el-row :gutter="10">
               <el-col v-bind="baseLayout">
                 <el-form-item prop="teamemployeeid" label="共同募集社員番号">
-				  <el-select-v2
-				    v-model="formData.teamemployeeid"
-				    :options="employeeInfoOptions"
-				    @change="handleTeamemployeeidChange"
-				  />
+                  <el-select-v2
+                    v-model="formData.teamemployeeid"
+                    :options="employeeInfoOptions"
+                    @change="handleTeamemployeeidChange"
+                  />
                 </el-form-item>
               </el-col>
               <el-col v-bind="baseLayout">
