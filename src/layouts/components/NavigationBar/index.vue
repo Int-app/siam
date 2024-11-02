@@ -58,13 +58,13 @@ const logout = () => {
         <template #dropdown>
           <el-dropdown-menu>
             <a target="_blank" href="https://github.com/un-pany/v3-admin-vite">
-              <el-dropdown-item>GitHub</el-dropdown-item>
+              <el-dropdown-item>プロフィール</el-dropdown-item>
             </a>
             <a target="_blank" href="https://gitee.com/un-pany/v3-admin-vite">
-              <el-dropdown-item>Gitee</el-dropdown-item>
+              <el-dropdown-item>設定</el-dropdown-item>
             </a>
             <el-dropdown-item divided @click="logout">
-              <span style="display: block">退出登录</span>
+              <span style="display: block">ログアウト</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

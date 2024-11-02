@@ -5,7 +5,7 @@ import { Bell } from "@element-plus/icons-vue"
 import NotifyList from "./NotifyList.vue"
 import { type ListItem, notifyData, messageData, todoData } from "./data"
 
-type TabName = "通知" | "消息" | "待办"
+type TabName = "お知らせ" | "メッセージ" | "タスク"
 
 interface DataItem {
   name: TabName
@@ -22,31 +22,31 @@ const badgeMax = 99
 /** 面板宽度 */
 const popoverWidth = 350
 /** 当前 Tab */
-const activeName = ref<TabName>("通知")
+const activeName = ref<TabName>("お知らせ")
 /** 所有数据 */
 const data = ref<DataItem[]>([
   // 通知数据
   {
-    name: "通知",
+    name: "お知らせ",
     type: "primary",
     list: notifyData
   },
   // 消息数据
   {
-    name: "消息",
+    name: "Q＆A",
     type: "danger",
     list: messageData
   },
   // 待办数据
   {
-    name: "待办",
+    name: "お問合せ",
     type: "warning",
     list: todoData
   }
 ])
 
 const handleHistory = () => {
-  ElMessage.success(`跳转到${activeName.value}历史页面`)
+  ElMessage.success(`閲覧${activeName.value}履歴画面`)
 }
 </script>
 
@@ -55,7 +55,7 @@ const handleHistory = () => {
     <el-popover placement="bottom" :width="popoverWidth" trigger="click">
       <template #reference>
         <el-badge :value="badgeValue" :max="badgeMax" :hidden="badgeValue === 0">
-          <el-tooltip effect="dark" content="消息通知" placement="bottom">
+          <el-tooltip effect="dark" content="お知らせ" placement="bottom">
             <el-icon :size="20">
               <Bell />
             </el-icon>
@@ -75,7 +75,7 @@ const handleHistory = () => {
           </el-tab-pane>
         </el-tabs>
         <div class="notify-history">
-          <el-button link @click="handleHistory">查看{{ activeName }}历史</el-button>
+          <el-button link @click="handleHistory">閲覧{{ activeName }}履歴</el-button>
         </div>
       </template>
     </el-popover>

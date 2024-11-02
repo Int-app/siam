@@ -50,15 +50,15 @@ const resetForm = () => {
 }
 //#endregion
 
-//#region 删
+//#region 削除
 const handleDelete = (row: TableData) => {
-  ElMessageBox.confirm(`正在删除用户：${row.username}，确认删除？`, "提示", {
-    confirmButtonText: "确定",
+  ElMessageBox.confirm(`削除：${row.username}，削除しますか？`, "確認", {
+    confirmButtonText: "確定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
     deleteTableDataApi(row.id).then(() => {
-      ElMessage.success("删除成功")
+      ElMessage.success("削除成功")
       getTableData()
     })
   })

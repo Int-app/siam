@@ -78,3 +78,11 @@ export const getAddressCode = (zipcode: string) => {
     method: "get"
   })
 }
+
+// employeeinfo
+export const getEmployeeInfoList = () => {
+  return request<{ data: resOptionType[] }>({
+    url: "employeeinfo/list",
+    method: "post"
+  })
+}

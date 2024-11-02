@@ -78,75 +78,75 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: "/insuranceCompany",
+    component: Layouts,
+    redirect: "/insuranceCompany/list",
+    children: [
+      {
+        path: "/insuranceCompany/list",
+        name: "保険会社一覧",
+        component: () => import("@/views/insurance/index.vue"),
+        meta: {
+          title: "保険会社管理",
+          elIcon: "OfficeBuilding",
+          keepAlive: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/employeeInfo",
+    component: Layouts,
+    redirect: "/employeeInfo/list",
+    children: [
+      {
+        path: "/employeeInfo/list",
+        name: "社員一覧",
+        component: () => import("@/views/insurance/index.vue"),
+        meta: {
+          title: "社員管理",
+          elIcon: "HelpFilled",
+          keepAlive: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/salary",
+    component: Layouts,
+    redirect: "/salary/list",
+    children: [
+      {
+        path: "/salary/list",
+        name: "給料計算",
+        component: () => import("@/views/insurance/index.vue"),
+        meta: {
+          title: "給料管理",
+          elIcon: "Money",
+          keepAlive: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/account",
+    component: Layouts,
+    redirect: "/account/list",
+    children: [
+      {
+        path: "/account/list",
+        name: "アカウント一覧",
+        component: () => import("@/views/insurance/index.vue"),
+        meta: {
+          title: "アカウント管理",
+          elIcon: "User",
+          keepAlive: true
+        }
+      }
+    ]
   }
-//  {
-//    path: "/insuranceCompany",
-//    component: Layouts,
-//    redirect: "/insuranceCompany/list",
-//    children: [
-//      {
-//        path: "/insuranceCompany/list",
-//        name: "保険会社一覧",
-//        component: () => import("@/views/insuranceCompany/index.vue"),
-//        meta: {
-//          title: "保険会社管理",
-//          elIcon: "OfficeBuilding",
-//          keepAlive: true
-//        }
-//      }
-//    ]
-//  },
-//  {
-//    path: "/employeeInfo",
-//    component: Layouts,
-//    redirect: "/employeeInfo/list",
-//    children: [
-//      {
-//        path: "/employeeInfo/list",
-//        name: "社員一覧",
-//        component: () => import("@/views/employeeInfo/index.vue"),
-//        meta: {
-//          title: "社員管理",
-//          elIcon: "HelpFilled",
-//          keepAlive: true
-//        }
-//      }
-//    ]
-//  },
-//  {
-//    path: "/salary",
-//    component: Layouts,
-//    redirect: "/salary/list",
-//    children: [
-//      {
-//        path: "/salary/list",
-//        name: "給料計算",
-//        component: () => import("@/views/salary/index.vue"),
-//        meta: {
-//          title: "給料管理",
-//          elIcon: "Money",
-//          keepAlive: true
-//        }
-//      }
-//    ]
-//  },
-//  {
-//    path: "/account",
-//    component: Layouts,
-//    redirect: "/account/list",
-//    children: [
-//      {
-//        path: "/account/list",
-//        name: "アカウント一覧",
-//        component: () => import("@/views/account/index.vue"),
-//        meta: {
-//          title: "アカウント管理",
-//          elIcon: "User",
-//          keepAlive: true
-//        }
-//      }
-//    ]
-//  }
   // {
   //   path: "/table",
   //   component: Layouts,
