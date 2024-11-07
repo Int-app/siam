@@ -9,20 +9,19 @@ const Layouts = () => import("@/layouts/index.vue")
  * 除了 redirect/403/404/login 等隐藏页面，其他页面建议设置 Name 属性
  */
 export const constantRoutes: RouteRecordRaw[] = [
-  // {
-  //   path: "/redirect",
-  //   component: Layouts,
-  //   meta: {
-  //     hidden: true
-  //   },
-  //   children: [
-  //     {
-  //       path: ":path(.*)",
-  //       component: () => import("@/views/redirect/index.vue")
-  //     }
-  //   ]
-  // },
-
+  {
+    path: "/redirect",
+    component: Layouts,
+    meta: {
+      hidden: true
+    },
+    children: [
+      {
+        path: ":path(.*)",
+        component: () => import("@/views/redirect/index.vue")
+      }
+    ]
+  },
   {
     path: "/403",
     component: () => import("@/views/error-page/403.vue"),

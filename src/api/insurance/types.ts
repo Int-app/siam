@@ -25,7 +25,7 @@ export interface InsuranceData {
   /** 保険会社name */
   insurancecompanyName?: string
 
-  /**保険プラン名 */
+  /**保険商品名 */
   insuranceproductid: string
 
   /**証券番号 */

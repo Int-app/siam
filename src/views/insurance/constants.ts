@@ -5,7 +5,7 @@ import { FormRules } from "element-plus"
 export const DEFAULT_FORM_DATA: InsuranceData & { nowAge?: number } = {
   insurancecontractid: undefined, // primarykey
   insurancecompanyid: undefined, // 保険会社
-  insuranceproductid: "", // 保険プラン名
+  insuranceproductid: "", // 保険商品名
   insurancepapersno: "", // 証券番号
   contractorfamilynamek: "", // 契約者(セイ)
   contractorgivennamek: "", // 契約者(メイ)
@@ -68,4 +68,12 @@ export const baseLayout = {
   md: 12,
   lg: 12,
   xl: 12
+}
+
+export const base4Layout = {
+  xs: 24,
+  sm: 12,
+  md: 12,
+  lg: 6,
+  xl: 6
 }
