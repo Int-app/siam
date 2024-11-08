@@ -86,7 +86,7 @@ export const constantRoutes: RouteRecordRaw[] = [
       {
         path: "/insuranceCompany/list",
         name: "保険会社一覧",
-        component: () => import("@/views/insurance/index.vue"),
+        component: () => import("@/views/company/index.vue"),
         meta: {
           title: "保険会社管理",
           elIcon: "OfficeBuilding",
