@@ -2,7 +2,7 @@ import { InsuranceData } from "@/api/insurance/types"
 import { FormRules } from "element-plus"
 
 //#region 增
-export const DEFAULT_FORM_DATA: InsuranceData & { nowAge?: number } = {
+export const DEFAULT_FORM_DATA: InsuranceData & { nowAge?: number; type?: number } = {
   insurancecontractid: undefined, // primarykey
   insurancecompanyid: undefined, // 保険会社
   insuranceproductid: "", // 保険商品名
@@ -44,7 +44,8 @@ export const DEFAULT_FORM_DATA: InsuranceData & { nowAge?: number } = {
   deleteflag: 0, //論理削除Flg,
   employeeName: "", //社員名
   teamemployeeName: "", //共同募集社員名
-  nowAge: undefined
+  nowAge: undefined,
+  type: 1 //
 }
 
 export const relationOptions = [
@@ -64,10 +65,10 @@ export const paymentcycleOptions = [
 
 export const baseLayout = {
   xs: 24,
-  sm: 12,
-  md: 12,
-  lg: 12,
-  xl: 12
+  sm: 11,
+  md: 11,
+  lg: 11,
+  xl: 11
 }
 
 export const base4Layout = {
