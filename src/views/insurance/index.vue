@@ -20,6 +20,7 @@ const addOrEdditModalRef = ref<
     })
   | null
 >(null)
+
 const loading = ref<boolean>(false)
 
 const searchFormRef = ref<FormInstance | null>(null)
@@ -71,6 +72,7 @@ const resetSearch = () => {
 
 const handleCreat = () => {
   if (!addOrEdditModalRef.value) return
+
   addOrEdditModalRef.value.setDialogVisible(true)
   addOrEdditModalRef.value.resetFormValue()
 }

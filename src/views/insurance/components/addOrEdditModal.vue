@@ -632,6 +632,7 @@ defineExpose({
         </el-collapse-item>
       </el-collapse>
     </el-form>
+
     <template #footer>
       <el-button :disabled="true">解約</el-button>
       <el-button :disabled="true">失効</el-button>
@@ -648,6 +649,7 @@ defineExpose({
 :deep(.el-form-item.is-required:not(.is-no-asterisk).asterisk-left > .el-form-item__label::after) {
   color: var(--el-color-danger);
   content: "*";
+  font-size: 24px;
   margin-left: 4px;
 }
 </style>
