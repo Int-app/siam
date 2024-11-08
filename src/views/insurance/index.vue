@@ -20,11 +20,8 @@ const addOrEdditModalRef = ref<
     })
   | null
 >(null)
-
 const loading = ref<boolean>(false)
-
 const searchFormRef = ref<FormInstance | null>(null)
-
 const insuranceCompanyOptions = ref<OptionType[]>([])
 
 const searchData = reactive({

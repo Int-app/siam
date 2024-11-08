@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted } from "vue"
 import { type FormInstance, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
-import { cloneDeep, concat, fill, map } from "lodash-es"
+import { cloneDeep } from "lodash-es"
 import type { InsuranceData, TableData } from "@/api/insurance/types"
 import { DEFAULT_FORM_DATA, relationOptions, paymentcycleOptions, baseLayout } from "../constants"
 import { COLLAPSE_TITLE, YEAR_TYPE, PAY_METHODS } from "../enums"
@@ -31,7 +31,7 @@ const userStore = useUserStore()
 
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
-const formData = ref<InsuranceData & { nowAge?: number }>(cloneDeep(DEFAULT_FORM_DATA))
+const formData = ref<InsuranceData & { nowAge?: number; type?: number }>(cloneDeep(DEFAULT_FORM_DATA))
 const activeNames = ref<CollapseModelValue>([COLLAPSE_TITLE.契約情報])
 
 const insuranceproductidOptions = ref<OptionType[]>([])
@@ -46,7 +46,7 @@ const birthday = ref({
 const yearOption = computed(() => {
   const nowYear = dayjs().get("year")
   if (formData.value.type === YEAR_TYPE.和暦) {
-    const res = []
+    const res: any[] = []
     // 明治1868 - 1912
     const year1 = new Array(1912 - 1868)
       .fill(0)
