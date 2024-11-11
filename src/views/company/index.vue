@@ -5,7 +5,7 @@ import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } fro
 import { usePagination } from "@/hooks/usePagination"
 import { base4Layout } from "./constants"
 import type { TableData } from "@/api/insurance/types"
-import AddOrEdditModal from "./components/addOrEdditModal/index.vue"
+import AddOrEdditModal from "./components/AddOrEdditModal/index.vue"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 const loading = ref<boolean>(false)

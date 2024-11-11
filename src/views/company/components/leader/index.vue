@@ -4,7 +4,7 @@ import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } fro
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
 import { usePagination } from "@/hooks/usePagination"
 import { base4Layout, baseLayout } from "../../constants"
-import AddOrEdditModal from "./components/addOrEdditModal.vue"
+import AddOrEdditModal from "./components/AddOrEdditModal.vue"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 const loading = ref<boolean>(false)
@@ -37,7 +37,6 @@ const handleCreat = () => {
         <el-row>
           <el-col v-bind="baseLayout">
             <el-form-item prop="insuranceCompanyName" label="保険商品">
-              <!-- <el-select-v2 v-model="searchData.name" :options="[]" style="width: 200px" clearable> </el-select-v2> -->
               <el-input v-model="searchData.name" />
             </el-form-item>
           </el-col>

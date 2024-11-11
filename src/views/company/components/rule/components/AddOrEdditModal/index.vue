@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import { baseLayout } from "../../../constants"
+import { baseLayout } from "../../../../constants"
 
 const dialogVisible = ref<boolean>(false)
 const formData = reactive({ insurancecontractid: undefined })
@@ -31,46 +31,39 @@ defineExpose({
     >
       <el-row :gutter="10" flex justify-between>
         <el-col v-bind="baseLayout">
-          <el-form-item label="担当者Id">
+          <el-form-item label="ルールId">
+            <el-input />
+          </el-form-item>
+        </el-col>
+        <el-col v-bind="baseLayout">
+          <el-form-item label="保険会社">
             <el-input />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="10" flex justify-between>
         <el-col v-bind="baseLayout">
-          <el-form-item label="担当者名">
-            <el-input placeholder="担当者(セイメイ)" />
+          <el-form-item label="社員ランク">
+            <el-select> </el-select>
           </el-form-item>
         </el-col>
         <el-col v-bind="baseLayout">
-          <el-form-item label="">
-            <el-input placeholder="担当者(姓名)" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10" flex justify-between>
-        <el-col v-bind="baseLayout">
-          <el-form-item label="性別">
+          <el-form-item label="支給方式">
             <el-radio-group>
-              <el-radio :value="1" size="large">男</el-radio>
-              <el-radio :value="2" size="large">女</el-radio>
+              <el-radio :value="1">月数支給</el-radio>
+              <el-radio :value="2">比率支給</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col v-bind="baseLayout">
-          <el-form-item label="部署">
-            <el-input />
-          </el-form-item>
-        </el-col>
       </el-row>
       <el-row :gutter="10" flex justify-between>
         <el-col v-bind="baseLayout">
-          <el-form-item label="電話番号">
+          <el-form-item label="支給月数">
             <el-input />
           </el-form-item>
         </el-col>
         <el-col v-bind="baseLayout">
-          <el-form-item label="メール">
+          <el-form-item label="支給比率">
             <el-input />
           </el-form-item>
         </el-col>
@@ -78,8 +71,8 @@ defineExpose({
 
       <el-row :gutter="10" flex justify-between>
         <el-col v-bind="baseLayout">
-          <el-form-item label="備考">
-            <el-input type="textarea" />
+          <el-form-item label="支給期間">
+            <el-input />
           </el-form-item>
         </el-col>
       </el-row>

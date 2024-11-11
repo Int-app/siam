@@ -8,7 +8,7 @@ import { usePagination } from "@/hooks/usePagination"
 import { getInsuranceList, deleteInsurance, getInsurancecompanyList, getInsuranceById } from "@/api/insurance"
 import { mapDataToOption } from "./utils"
 import { base4Layout } from "./constants"
-import AddOrEdditModal from "./components/addOrEdditModal.vue"
+import AddOrEdditModal from "./components/AddOrEdditModal.vue"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 
@@ -74,7 +74,6 @@ const handleCreat = () => {
   addOrEdditModalRef.value.resetFormValue()
 }
 
-
 const handleUpdate = (row: InsuranceData) => {
   if (!addOrEdditModalRef.value || !row.insurancecontractid) return
   addOrEdditModalRef.value.setDialogVisible(true)
@@ -120,95 +119,90 @@ const value = ref(true)
           </el-col>
           <el-col v-bind="base4Layout">
             <el-form-item prop="insurancecontractnumber" label="ロール">
-				<el-select-v2
-				  v-model="searchData.insuranceCompanyName"
-				  :options="insuranceCompanyOptions"
-				  style="width: 200px"
-				  clearable
-				>
-				</el-select-v2>
+              <el-select-v2
+                v-model="searchData.insuranceCompanyName"
+                :options="insuranceCompanyOptions"
+                style="width: 200px"
+                clearable
+              >
+              </el-select-v2>
             </el-form-item>
           </el-col>
-		  <el-col v-bind="base4Layout">
-		    <el-form-item prop="insurancecontractnumber" label="ランク">
-		  	<el-select-v2
-		  	  v-model="searchData.insuranceCompanyName"
-		  	  :options="insuranceCompanyOptions"
-		  	  style="width: 200px"
-		  	  clearable
-		  	>
-		  	</el-select-v2>
-		    </el-form-item>
-		  </el-col>
-		  <el-col v-bind="base4Layout">
-		    <el-form-item prop="insurancecontractnumber" label="在職状態">
-		  	<el-select-v2
-		  	  v-model="searchData.insuranceCompanyName"
-		  	  :options="insuranceCompanyOptions"
-		  	  style="width: 200px"
-		  	  clearable
-		  	>
-		  	</el-select-v2>
-		    </el-form-item>
-		  </el-col>
+          <el-col v-bind="base4Layout">
+            <el-form-item prop="insurancecontractnumber" label="ランク">
+              <el-select-v2
+                v-model="searchData.insuranceCompanyName"
+                :options="insuranceCompanyOptions"
+                style="width: 200px"
+                clearable
+              >
+              </el-select-v2>
+            </el-form-item>
+          </el-col>
+          <el-col v-bind="base4Layout">
+            <el-form-item prop="insurancecontractnumber" label="在職状態">
+              <el-select-v2
+                v-model="searchData.insuranceCompanyName"
+                :options="insuranceCompanyOptions"
+                style="width: 200px"
+                clearable
+              >
+              </el-select-v2>
+            </el-form-item>
+          </el-col>
         </el-row>
-		<el-row>
-			<el-col v-bind="base4Layout">
-			  <el-form-item prop="insurancecontractnumber" label="紹介社員">
-				<el-select-v2
-				  v-model="searchData.insuranceCompanyName"
-				  :options="insuranceCompanyOptions"
-				  style="width: 200px"
-				  clearable
-				>
-				</el-select-v2>
-			  </el-form-item>
-			</el-col>
-		   <el-col v-bind="base4Layout">
-			<el-form-item prop="contractdate" label="入社日">
-			  <el-date-picker
-			    v-model="searchData.insurancecontractnumber"
-			    format="YYYY/MM/DD"
-			    value-format="YYYY/MM/DD"
-			    type="date"
-			    size="large"
-			    style="width: 100%"
-			  />
-			</el-form-item>
-		   </el-col>
-		   <el-col v-bind="base4Layout">
-			<el-form-item prop="contractdate" label="～">
-			  <el-date-picker
-			    v-model="searchData.insurancecontractnumber"
-			    format="YYYY/MM/DD"
-			    value-format="YYYY/MM/DD"
-			    type="date"
-			    size="large"
-			    style="width: 100%"
-			  />
-			</el-form-item>
-		   </el-col>		  
-		 </el-row>
-		  <el-row type="flex" justify="end">
-		   <el-form-item>
-		     <el-button type="primary" :icon="Search" @click="handleSearch">検索</el-button>
-		     <el-button :icon="Refresh" @click="resetSearch">クリア</el-button>
-		   </el-form-item>
-		 </el-row>
+        <el-row>
+          <el-col v-bind="base4Layout">
+            <el-form-item prop="insurancecontractnumber" label="紹介社員">
+              <el-select-v2
+                v-model="searchData.insuranceCompanyName"
+                :options="insuranceCompanyOptions"
+                style="width: 200px"
+                clearable
+              >
+              </el-select-v2>
+            </el-form-item>
+          </el-col>
+          <el-col v-bind="base4Layout">
+            <el-form-item prop="contractdate" label="入社日">
+              <el-date-picker
+                v-model="searchData.insurancecontractnumber"
+                format="YYYY/MM/DD"
+                value-format="YYYY/MM/DD"
+                type="date"
+                size="large"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col v-bind="base4Layout">
+            <el-form-item prop="contractdate" label="～">
+              <el-date-picker
+                v-model="searchData.insurancecontractnumber"
+                format="YYYY/MM/DD"
+                value-format="YYYY/MM/DD"
+                type="date"
+                size="large"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="end">
+          <el-form-item>
+            <el-button type="primary" :icon="Search" @click="handleSearch">検索</el-button>
+            <el-button :icon="Refresh" @click="resetSearch">クリア</el-button>
+          </el-form-item>
+        </el-row>
       </el-form>
     </el-card>
 
     <el-card v-loading="loading" shadow="never">
       <div flex justify-between mb-3>
         <div>
-          <el-button type="primary"  @click="handleCreat">新規社員登録</el-button>
-		  <el-button type="primary"  @click="handleCreat">削除</el-button>
-		  <el-switch
-		    v-model="value"
-			size="large"
-			active-text="一覧"
-		    inactive-text="カード"
-		  />
+          <el-button type="primary" @click="handleCreat">新規社員登録</el-button>
+          <el-button type="primary" @click="handleCreat">削除</el-button>
+          <el-switch v-model="value" size="large" active-text="一覧" inactive-text="カード" />
         </div>
       </div>
       <div mb-3>
@@ -221,9 +215,9 @@ const value = ref(true)
           <el-table-column prop="insuredpersonfamilynamek" label="入社日" align="center" :width="150" />
           <el-table-column prop="insuredpersonfamilyname" label="生年月日" align="center" :width="150" />
           <el-table-column prop="insuredpersongivenname" label="電話番号" align="center" :width="120" />
-		  <el-table-column prop="insuredpersongivenname" label="メール" align="center" :width="120" />
-		  <el-table-column prop="insuredpersongivenname" label="在職状態" align="center" :width="120" />
-		  <el-table-column prop="insuredpersongivenname" label="紹介社員" align="center" :width="120" />
+          <el-table-column prop="insuredpersongivenname" label="メール" align="center" :width="120" />
+          <el-table-column prop="insuredpersongivenname" label="在職状態" align="center" :width="120" />
+          <el-table-column prop="insuredpersongivenname" label="紹介社員" align="center" :width="120" />
           <el-table-column fixed="right" label="操作" align="center" :width="130">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
@@ -271,4 +265,3 @@ const value = ref(true)
   }
 }
 </style>
-

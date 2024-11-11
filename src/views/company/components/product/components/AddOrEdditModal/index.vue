@@ -2,8 +2,8 @@
 import { ref, reactive } from "vue"
 import type { TabsPaneContext } from "element-plus"
 import { baseLayout } from "../../../../constants"
-import Product from "../product/index.vue"
-import Rule from "../rule/index.vue"
+import Product from "../Product/index.vue"
+import Rule from "../Rule/index.vue"
 
 const dialogVisible = ref<boolean>(false)
 const activeName = ref("first")

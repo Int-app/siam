@@ -5,7 +5,7 @@ import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseMod
 import { usePagination } from "@/hooks/usePagination"
 import { base4Layout, baseLayout } from "../../constants"
 
-import AddOrEdditModal from "./components/addOrEdditModal/index.vue"
+import AddOrEdditModal from "./components/AddOrEdditModal/index.vue"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 const loading = ref<boolean>(false)
