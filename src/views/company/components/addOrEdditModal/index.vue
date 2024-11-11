@@ -3,10 +3,10 @@ import { ref } from "vue"
 import { type FormInstance, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
 import cloneDeep from "lodash-es/cloneDeep"
 import type { TabsPaneContext } from "element-plus"
-import InsuranceCompany from "../insuranceCompany/index.vue"
-import leader from "../leader/index.vue"
-import product from "../product/index.vue"
-import rule from "../rule/index.vue"
+import InsuranceCompany from "../InsuranceCompany/index.vue"
+import leader from "../Leader/index.vue"
+import product from "../Product/index.vue"
+import rule from "../Rule/index.vue"
 
 const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
@@ -22,6 +22,10 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
 const resetForm = () => {
   formRef.value?.clearValidate()
+}
+
+const handleCreate = () => {
+  visible.value = false
 }
 
 const setVisible = (value: boolean) => {
@@ -58,7 +62,7 @@ defineExpose({
       </el-tabs>
     </el-form>
     <template #footer>
-      <el-button type="primary">登録</el-button>
+      <el-button type="primary" @click="handleCreate">登録</el-button>
     </template>
   </el-dialog>
 </template>

@@ -52,4 +52,8 @@ import { baseLayout } from "../../../../constants"
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+:deep(.el-range-separator) {
+  border: 1px;
+}
+</style>

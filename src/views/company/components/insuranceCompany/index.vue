@@ -55,4 +55,4 @@ import { baseLayout } from "../../constants"
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped></style>

@@ -46,7 +46,7 @@ const handleCreat = () => {
           </el-col>
           <el-col v-bind="baseLayout">
             <el-form-item prop="insurancecontractnumber" label="販売状態">
-              <el-select-v2 v-model="searchData.status" :options="[]" style="width: 200px" clearable> </el-select-v2>
+              <el-select-v2 :options="[]" style="width: 200px" clearable> </el-select-v2>
             </el-form-item>
           </el-col>
           <el-col v-bind="baseLayout">
