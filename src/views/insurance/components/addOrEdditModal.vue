@@ -32,7 +32,7 @@ const userStore = useUserStore()
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = ref<InsuranceData & { nowAge?: number; type?: number }>(cloneDeep(DEFAULT_FORM_DATA))
-const activeNames = ref<CollapseModelValue>([COLLAPSE_TITLE.契約情報])
+const activeNames = ref<CollapseModelValue>([COLLAPSE_TITLE.保険情報])
 
 const insuranceproductidOptions = ref<OptionType[]>([])
 const employeeInfoOptions = ref<OptionType[]>([])
@@ -274,7 +274,7 @@ const resetFormValue = () => {
     employeeName: userStore.employeeName,
     nowAge: undefined
   }
-  activeNames.value = [COLLAPSE_TITLE.契約情報]
+  activeNames.value = [COLLAPSE_TITLE.保険情報]
   formRef.value?.resetFields()
 }
 
@@ -307,13 +307,13 @@ defineExpose({
           <el-form-item v-show="false" prop="insurancecontractid" label="primarykey">
             <el-input v-model="formData.insurancecontractid" />
           </el-form-item>
-		  <el-row :gutter="10" flex justify-between>
-		     <el-col v-bind="baseLayout">
-			   <el-form-item prop="insurancepapersno" label="保険種別">
-			     <el-input v-model="formData.insurancepapersno" :disabled="true" />
-			   </el-form-item>
-		     </el-col>
-		   </el-row>
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="insurancepapersno" label="保険種別">
+                <el-input v-model="formData.insurancepapersno" :disabled="true" />
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row :gutter="10" flex justify-between>
             <el-col v-bind="baseLayout">
               <el-form-item prop="insurancecompanyid" label="保険会社">
@@ -376,22 +376,18 @@ defineExpose({
               </el-form-item>
             </el-col>
           </el-row>
-		  <el-form-item prop="remarks" label="保険内容">
-		    <el-input
-		      :maxlength="300"
-		      v-model="formData.remarks"
-		      type="textarea"
-		      size="large"
-		      h-full
-		      placeholder="Please input"
-		    />
-		  </el-form-item>
+          <el-form-item prop="remarks" label="保険内容">
+            <el-input
+              :maxlength="300"
+              v-model="formData.remarks"
+              type="textarea"
+              size="large"
+              h-full
+              placeholder="Please input"
+            />
+          </el-form-item>
         </el-collapse-item>
-        <el-collapse-item
-          w-full
-          :title="COLLAPSE_TITLE[COLLAPSE_TITLE.契約者情報]"
-          :name="COLLAPSE_TITLE.契約者情報"
-        >
+        <el-collapse-item w-full :title="COLLAPSE_TITLE[COLLAPSE_TITLE.契約者情報]" :name="COLLAPSE_TITLE.契約者情報">
           <el-row :gutter="10" flex justify-between>
             <el-col v-bind="baseLayout">
               <el-form-item prop="contractorfamilynamek" label="契約者名">
@@ -518,110 +514,110 @@ defineExpose({
             <el-input :maxlength="100" v-model="formData.addressother" placeholder="住所(番地以降)" />
           </el-form-item>
         </el-collapse-item>
-		<el-collapse-item
-		   w-full
-		   :title="COLLAPSE_TITLE[COLLAPSE_TITLE.被保険者情報]"
-		   :name="COLLAPSE_TITLE.被保険者情報"
-		 >
-		   <el-row :gutter="10" flex justify-between>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item label="被保険者名">
-		         <el-select-v2 v-model="formData.relationship" :options="relationOptions" clearable> </el-select-v2>
-		       </el-form-item>
-		     </el-col>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="relationshipother" label="契約者との関係(補足)">
-		         <el-input :disabled="isDisabledRelationshipother" v-model="formData.relationshipother" />
-		       </el-form-item>
-		     </el-col>
-		   </el-row>
-		   <el-row :gutter="10" flex justify-between>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="insuredpersonfamilynamek" label="">
-		         <el-input v-model="formData.insuredpersonfamilynamek" placeholder="被保険者(セイ)" />
-		       </el-form-item>
-		     </el-col>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="insuredpersongivennamek">
-		         <el-input v-model="formData.insuredpersongivennamek" placeholder="被保険者(メイ)" />
-		       </el-form-item>
-		     </el-col>
-		   </el-row>
-		   <el-row :gutter="10" flex justify-between>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="insuredpersonfamilyname" label="">
-		         <el-input v-model="formData.insuredpersonfamilyname" placeholder="被保険者(姓)" />
-		       </el-form-item>
-		     </el-col>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="insuredpersongivenname" label="">
-		         <el-input v-model="formData.insuredpersongivenname" placeholder="被保険者(名)" />
-		       </el-form-item>
-		     </el-col>
-		   </el-row>
+        <el-collapse-item
+          w-full
+          :title="COLLAPSE_TITLE[COLLAPSE_TITLE.被保険者情報]"
+          :name="COLLAPSE_TITLE.被保険者情報"
+        >
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item label="被保険者名">
+                <el-select-v2 v-model="formData.relationship" :options="relationOptions" clearable> </el-select-v2>
+              </el-form-item>
+            </el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="relationshipother" label="契約者との関係(補足)">
+                <el-input :disabled="isDisabledRelationshipother" v-model="formData.relationshipother" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="insuredpersonfamilynamek" label="">
+                <el-input v-model="formData.insuredpersonfamilynamek" placeholder="被保険者(セイ)" />
+              </el-form-item>
+            </el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="insuredpersongivennamek">
+                <el-input v-model="formData.insuredpersongivennamek" placeholder="被保険者(メイ)" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="insuredpersonfamilyname" label="">
+                <el-input v-model="formData.insuredpersonfamilyname" placeholder="被保険者(姓)" />
+              </el-form-item>
+            </el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="insuredpersongivenname" label="">
+                <el-input v-model="formData.insuredpersongivenname" placeholder="被保険者(名)" />
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-		   <el-form-item prop="sex" label="性別">
-		     <el-radio-group v-model="formData.sex">
-		       <el-radio :value="1" size="large">男</el-radio>
-		       <el-radio :value="2" size="large">女</el-radio>
-		     </el-radio-group>
-		   </el-form-item>
-		   <el-form-item label="生年月日">
-		     <el-row :gutter="10" flex justify-between w-full>
-		       <el-col>
-		         <el-radio-group v-model="formData.type">
-		           <el-radio :value="1">西暦</el-radio>
-		           <el-radio :value="2">和暦</el-radio>
-		         </el-radio-group>
-		       </el-col>
-		       <el-col :span="8">
-		         <el-select-v2
-		           v-model="birthday.year"
-		           :options="yearOption"
-		           filterable
-		           placeholder="年"
-		           clearable
-		           @change="() => (birthday.day = '')"
-		         >
-		         </el-select-v2>
-		       </el-col>
-		       <el-col :span="8">
-		         <el-select-v2
-		           v-model="birthday.month"
-		           :options="monthOption"
-		           filterable
-		           placeholder="月"
-		           clearable
-		           @change="() => (birthday.day = '')"
-		         >
-		         </el-select-v2>
-		       </el-col>
-		       <el-col :span="8">
-		         <el-select-v2
-		           :disabled="isDisabledHi"
-		           v-model="birthday.day"
-		           :options="hiOption"
-		           filterable
-		           placeholder="日"
-		           clearable
-		         >
-		         </el-select-v2>
-		       </el-col>
-		     </el-row>
-		   </el-form-item>
-		   <el-row :gutter="10" flex justify-between>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="age" label="年齢(保険開始時)">
-		         <el-input v-model="formData.age" />
-		       </el-form-item>
-		     </el-col>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="" label="年齢(現在)">
-		         <el-input v-model="formData.nowAge" :disabled="true" />
-		       </el-form-item>
-		     </el-col>
-		   </el-row>
-		 </el-collapse-item>
+          <el-form-item prop="sex" label="性別">
+            <el-radio-group v-model="formData.sex">
+              <el-radio :value="1" size="large">男</el-radio>
+              <el-radio :value="2" size="large">女</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="生年月日">
+            <el-row :gutter="10" flex justify-between w-full>
+              <el-col>
+                <el-radio-group v-model="formData.type">
+                  <el-radio :value="1">西暦</el-radio>
+                  <el-radio :value="2">和暦</el-radio>
+                </el-radio-group>
+              </el-col>
+              <el-col :span="8">
+                <el-select-v2
+                  v-model="birthday.year"
+                  :options="yearOption"
+                  filterable
+                  placeholder="年"
+                  clearable
+                  @change="() => (birthday.day = '')"
+                >
+                </el-select-v2>
+              </el-col>
+              <el-col :span="8">
+                <el-select-v2
+                  v-model="birthday.month"
+                  :options="monthOption"
+                  filterable
+                  placeholder="月"
+                  clearable
+                  @change="() => (birthday.day = '')"
+                >
+                </el-select-v2>
+              </el-col>
+              <el-col :span="8">
+                <el-select-v2
+                  :disabled="isDisabledHi"
+                  v-model="birthday.day"
+                  :options="hiOption"
+                  filterable
+                  placeholder="日"
+                  clearable
+                >
+                </el-select-v2>
+              </el-col>
+            </el-row>
+          </el-form-item>
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="age" label="年齢(保険開始時)">
+                <el-input v-model="formData.age" />
+              </el-form-item>
+            </el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="" label="年齢(現在)">
+                <el-input v-model="formData.nowAge" :disabled="true" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-collapse-item>
         <el-collapse-item w-full :title="COLLAPSE_TITLE[COLLAPSE_TITLE.社員情報]" :name="COLLAPSE_TITLE.社員情報">
           <el-row :gutter="10" flex justify-between>
             <el-col v-bind="baseLayout">
@@ -657,50 +653,50 @@ defineExpose({
           </el-row>
         </el-collapse-item>
         <el-collapse-item w-full :title="COLLAPSE_TITLE[COLLAPSE_TITLE.手数料]" :name="COLLAPSE_TITLE.手数料">
-		<el-row :gutter="10" flex justify-between>
-			<el-col v-bind="baseLayout">
-		      <el-form-item prop="paymentmethod" label="支給方式">
-		        <el-radio-group v-model="formData.paymentmethod">
-		          <el-radio :value="1">月数支給</el-radio>
-		          <el-radio :value="2">比率支給</el-radio>
-		        </el-radio-group>
-		      </el-form-item>
-			</el-col>
-			 <el-col v-bind="baseLayout">
-			    <el-form-item prop="totalamount" label="月社員ランク">
-					<el-input
-					  :maxlength="2"
-					  :disabled="!isDisabledPayMethods"
-					  v-model="formData.paymentmonths"
-					  oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-					/>
-			    </el-form-item>
-			</el-col>
-		</el-row>
-		  <el-row :gutter="10" flex justify-between>
-		  <el-col v-bind="baseLayout">
-		    <el-form-item prop="paymentmonths" label="支給月数">
-		      <el-input
-		        :maxlength="2"
-		        :disabled="!isDisabledPayMethods"
-		        v-model="formData.paymentmonths"
-		        oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-		      />
-		    </el-form-item>
-		  </el-col>
-		     <el-col v-bind="baseLayout">
-		       <el-form-item prop="paymentpercentage" label="支給比率">
-		         <el-input
-		           :maxlength="2"
-		           :disabled="isDisabledPayMethods"
-		           v-model="formData.paymentpercentage"
-		           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-		         >
-		           <template #append>%</template>
-		         </el-input>
-		       </el-form-item>
-		     </el-col>
-		   </el-row>
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="paymentmethod" label="支給方式">
+                <el-radio-group v-model="formData.paymentmethod">
+                  <el-radio :value="1">月数支給</el-radio>
+                  <el-radio :value="2">比率支給</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="totalamount" label="月社員ランク">
+                <el-input
+                  :maxlength="2"
+                  :disabled="!isDisabledPayMethods"
+                  v-model="formData.paymentmonths"
+                  oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="paymentmonths" label="支給月数">
+                <el-input
+                  :maxlength="2"
+                  :disabled="!isDisabledPayMethods"
+                  v-model="formData.paymentmonths"
+                  oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="paymentpercentage" label="支給比率">
+                <el-input
+                  :maxlength="2"
+                  :disabled="isDisabledPayMethods"
+                  v-model="formData.paymentpercentage"
+                  oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+                >
+                  <template #append>%</template>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
           <el-row :gutter="10" flex justify-between>
             <el-col v-bind="baseLayout">
               <el-form-item prop="initialcommission" label="初年度手数料">
@@ -709,44 +705,44 @@ defineExpose({
                 </el-input>
               </el-form-item>
             </el-col>
-			<el-col v-bind="baseLayout">
-			  <el-form-item prop="totalamount" label="総額">
-			    <el-input v-model="formData.totalamount" oninput="value=value.replace(/^\.+|[^\d.]/g,'')">
-			      <template #append>円</template>
-			    </el-input>
-			  </el-form-item>
-			</el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="totalamount" label="総額">
+                <el-input v-model="formData.totalamount" oninput="value=value.replace(/^\.+|[^\d.]/g,'')">
+                  <template #append>円</template>
+                </el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
-		  <el-row :gutter="10" flex justify-between>
-		    <el-col v-bind="baseLayout">
-		      <el-form-item prop="initialcommission" label="支給期間">
-				<el-input
-				  :maxlength="2"
-				  :disabled="!isDisabledPayMethods"
-				  v-model="formData.paymentmonths"
-				  oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-				/>
-		      </el-form-item>
-		    </el-col>
-		  <el-col v-bind="baseLayout">
-		    <el-form-item prop="totalamount" label="月支給額">
-		      <el-input v-model="formData.totalamount" oninput="value=value.replace(/^\.+|[^\d.]/g,'')">
-		        <template #append>円</template>
-		      </el-input>
-		    </el-form-item>
-		  </el-col>
-		  </el-row>
+          <el-row :gutter="10" flex justify-between>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="initialcommission" label="支給期間">
+                <el-input
+                  :maxlength="2"
+                  :disabled="!isDisabledPayMethods"
+                  v-model="formData.paymentmonths"
+                  oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col v-bind="baseLayout">
+              <el-form-item prop="totalamount" label="月支給額">
+                <el-input v-model="formData.totalamount" oninput="value=value.replace(/^\.+|[^\d.]/g,'')">
+                  <template #append>円</template>
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-collapse-item>
       </el-collapse>
     </el-form>
 
     <template #footer>
-		<el-button :disabled="true">失効</el-button>
-		<el-button :disabled="true">復活</el-button>
-		<el-button :disabled="true">解約</el-button>
-		<el-button :disabled="true">確定</el-button>
-		<el-button type="primary" @click="handleCreateOrUpdate" v-model="loading">登録</el-button>
-		<el-button :disabled="true">削除</el-button>
+      <el-button :disabled="true">失効</el-button>
+      <el-button :disabled="true">復活</el-button>
+      <el-button :disabled="true">解約</el-button>
+      <el-button :disabled="true">確定</el-button>
+      <el-button type="primary" @click="handleCreateOrUpdate" v-model="loading">登録</el-button>
+      <el-button :disabled="true">削除</el-button>
     </template>
   </el-dialog>
 </template>

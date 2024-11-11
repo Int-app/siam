@@ -39,7 +39,7 @@ defineExpose({
     :title="formData.insurancecontractid === undefined ? '新規' : '編集'"
     @closed="resetForm"
     :open-delay="500"
-    width="60%"
+    width="80%"
   >
     <el-form w-full flex ref="formRef" :model="formData" label-width="120px" label-position="left" class="modal-form">
       <el-tabs v-model="activeName" type="card" w-full @tab-click="handleClick">

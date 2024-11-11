@@ -1,53 +1,50 @@
 <script lang="ts" setup>
-import { ref } from "vue"
-import { baseLayout } from "../../constants"
+import { baseLayout } from "../../../../constants"
 </script>
 
 <template>
-  <div>
+  <div class="app-container">
     <el-row :gutter="10" flex justify-between>
       <el-col v-bind="baseLayout">
-        <el-form-item label="保険会社Id">
+        <el-form-item label="保険商品Id">
           <el-input />
         </el-form-item>
       </el-col>
       <el-col v-bind="baseLayout">
-        <el-form-item label="保険会社名">
+        <el-form-item label="保険商品名">
           <el-input />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="10" flex justify-between>
       <el-col v-bind="baseLayout">
-        <el-form-item label="主担当">
+        <el-form-item label="保険会社">
           <el-select> </el-select>
         </el-form-item>
       </el-col>
-      <el-col v-bind="baseLayout">
-        <el-form-item label="性別">
-          <el-radio-group>
-            <el-radio :value="1" size="large">男</el-radio>
-            <el-radio :value="2" size="large">女</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-col>
+      <el-col v-bind="baseLayout"></el-col>
     </el-row>
     <el-row :gutter="10" flex justify-between>
       <el-col v-bind="baseLayout">
-        <el-form-item label="部署">
-          <el-input />
+        <el-form-item label="販売開始日">
+          <el-date-picker format="YYYY/MM/DD" value-format="YYYY/MM/DD" type="date" size="large" style="width: 100%" />
         </el-form-item>
       </el-col>
       <el-col v-bind="baseLayout">
-        <el-form-item label="電話番号">
-          <el-input />
+        <el-form-item label="販売終了日">
+          <el-date-picker format="YYYY/MM/DD" value-format="YYYY/MM/DD" type="date" size="large" style="width: 100%" />
         </el-form-item>
       </el-col>
     </el-row>
 
     <el-row :gutter="10" flex justify-between>
       <el-col v-bind="baseLayout">
-        <el-form-item label="メール">
+        <el-form-item label="販売状態">
+          <el-select-v2 :options="[]"></el-select-v2>
+        </el-form-item>
+      </el-col>
+      <el-col v-bind="baseLayout">
+        <el-form-item label="備考">
           <el-input />
         </el-form-item>
       </el-col>
