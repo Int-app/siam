@@ -31,7 +31,7 @@ const handleCreat = () => {
   <div>
     <div flex justify-between mb-3>
       <div>
-        <el-button type="primary" @click="handleCreat">担当者追加</el-button>
+        <el-button type="primary" @click="handleCreat">ルール追加</el-button>
       </div>
     </div>
     <div mb-3>

@@ -36,7 +36,7 @@ const handleCreat = () => {
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
         <el-row>
           <el-col v-bind="baseLayout">
-            <el-form-item prop="insuranceCompanyName" label="保険商品">
+            <el-form-item prop="insuranceCompanyName" label="担当者">
               <el-input v-model="searchData.name" />
             </el-form-item>
           </el-col>
