@@ -1,11 +1,23 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue"
 import { usePagination } from "@/hooks/usePagination"
-import { baseLayout } from "../../../../constants"
+import { baseLayout } from "@/constants/laylout"
+import RuleModal from "../../../Rule/components/AddOrEdditModal/index.vue"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 
-const handleSelect = () => {}
+const ruleModalRef = ref<
+  | (InstanceType<typeof RuleModal> & {
+      setVisible: (value: boolean) => void
+    })
+  | null
+>(null)
+
+const tableData = reactive([])
+
+const handleSelect = () => {
+  ruleModalRef.value?.setVisible(true)
+}
 </script>
 
 <template>
@@ -45,6 +57,7 @@ const handleSelect = () => {}
         @current-change="handleCurrentChange"
       />
     </div>
+    <RuleModal ref="ruleModalRef" :disabled="true" />
   </div>
 </template>
 

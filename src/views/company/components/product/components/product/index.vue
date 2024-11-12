@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { baseLayout } from "../../../../constants"
+import { baseLayout } from "@/constants/laylout"
 </script>
 
 <template>

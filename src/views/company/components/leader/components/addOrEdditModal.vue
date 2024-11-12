@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
-import { baseLayout } from "../../../constants"
+import { baseLayout } from "@/constants/laylout"
 
 const dialogVisible = ref<boolean>(false)
 const formData = reactive({ insurancecontractid: undefined })

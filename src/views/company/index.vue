@@ -3,7 +3,7 @@ import { reactive, ref } from "vue"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
-import { base4Layout } from "./constants"
+import { base4Layout } from "@/constants/laylout"
 import type { TableData } from "@/api/insurance/types"
 import AddOrEdditModal from "./components/AddOrEdditModal/index.vue"
 

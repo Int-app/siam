@@ -2,7 +2,7 @@
 import { ref, reactive } from "vue"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } from "@element-plus/icons-vue"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
-import { baseLayout } from "../../constants"
+import { baseLayout } from "@/constants/laylout"
 import { usePagination } from "@/hooks/usePagination"
 import AddOrEdditModal from "./components/AddOrEdditModal/index.vue"
 

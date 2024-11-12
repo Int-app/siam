@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "vue"
-import { baseLayout } from "../../constants"
+import { baseLayout } from "@/constants/laylout"
 </script>
 
 <template>

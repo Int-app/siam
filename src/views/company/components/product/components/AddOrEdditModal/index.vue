@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue"
 import type { TabsPaneContext } from "element-plus"
-import { baseLayout } from "../../../../constants"
+import { baseLayout } from "@/constants/laylout"
 import Product from "../Product/index.vue"
 import Rule from "../Rule/index.vue"
 

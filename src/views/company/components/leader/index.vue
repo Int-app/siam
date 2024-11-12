@@ -3,7 +3,7 @@ import { ref, reactive } from "vue"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } from "@element-plus/icons-vue"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
 import { usePagination } from "@/hooks/usePagination"
-import { base4Layout, baseLayout } from "../../constants"
+import { base4Layout, baseLayout } from "@/constants/laylout"
 import AddOrEdditModal from "./components/AddOrEdditModal.vue"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()

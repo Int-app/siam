@@ -7,7 +7,7 @@ import type { InsuranceData, TableData } from "@/api/insurance/types"
 import { usePagination } from "@/hooks/usePagination"
 import { getInsuranceList, deleteInsurance, getInsurancecompanyList, getInsuranceById } from "@/api/insurance"
 import { mapDataToOption } from "./utils"
-import { base4Layout } from "./constants"
+import { base4Layout } from "@/constants/laylout"
 import AddOrEdditModal from "./components/AddOrEdditModal.vue"
 import SelectModal from "./components/SelectModal.vue"
 

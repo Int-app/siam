@@ -96,14 +96,14 @@ export const constantRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: "/insuranceCompany",
+    path: "/product",
     component: Layouts,
-    redirect: "/insuranceCompany/list",
+    redirect: "/product/list",
     children: [
       {
-        path: "/insuranceCompany/list",
+        path: "/product/list",
         name: "保険商品一覧",
-        component: () => import("@/views/company/index.vue"),
+        component: () => import("@/views/product/index.vue"),
         meta: {
           title: "保険商品管理",
           elIcon: "Tickets",
