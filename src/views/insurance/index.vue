@@ -2,7 +2,7 @@
 import { reactive, ref, onMounted, watch, computed, Ref } from "vue"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } from "@element-plus/icons-vue"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
-import type { OptionType } from "./types"
+import type { OptionType, AddOrEdditModalRefType } from "./types"
 import type { InsuranceData, TableData } from "@/api/insurance/types"
 import { usePagination } from "@/hooks/usePagination"
 import { getInsuranceList, deleteInsurance, getInsurancecompanyList, getInsuranceById } from "@/api/insurance"
@@ -13,14 +13,7 @@ import SelectModal from "./components/SelectModal.vue"
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 
-const addOrEdditModalRef = ref<
-  | (InstanceType<typeof AddOrEdditModal> & {
-      setDialogVisible: (value: boolean) => void
-      resetFormValue: () => void
-      setFormValue: (value: object) => void
-    })
-  | null
->(null)
+const addOrEdditModalRef = ref<AddOrEdditModalRefType>(null)
 const loading = ref<boolean>(false)
 const searchFormRef = ref<FormInstance | null>(null)
 const insuranceCompanyOptions = ref<OptionType[]>([])
@@ -287,7 +280,7 @@ const value = ref(true)
       :get-table-data="getTableData"
       :insuranceCompanyOptions="insuranceCompanyOptions"
     />
-    <SelectModal ref="selectModalRef" />
+    <SelectModal ref="selectModalRef" :addOrEdditModalRef="addOrEdditModalRef" />
   </div>
 </template>
 
