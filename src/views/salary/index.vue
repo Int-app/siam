@@ -23,6 +23,7 @@ const addOrEdditModalRef = ref<
 const loading = ref<boolean>(false)
 const searchFormRef = ref<FormInstance | null>(null)
 const insuranceCompanyOptions = ref<OptionType[]>([])
+const value = ref<boolean>(false)
 
 const searchData = reactive({
   employeeId: undefined, // 員工番号
@@ -33,38 +34,8 @@ const searchData = reactive({
 
 const tableData = ref<TableData[]>([])
 
-onMounted(() => {
-  getInsurancecompanyList().then((res) => {
-    insuranceCompanyOptions.value = mapDataToOption(res.data)
-  })
-})
-
-const getTableData = () => {
-  loading.value = true
-
-  getInsuranceList({ ...paginationData, ...searchData })
-    .then((res) => {
-      tableData.value = res.data.list
-      handleMerge({ pageNum: res.data.pageNum, pageSize: res.data.pageSize, total: res.data.total })
-    })
-    .finally(() => (loading.value = false))
-}
-
-watch(
-  [paginationData.pageNum, paginationData.pageSize],
-  () => {
-    getTableData()
-  },
-  { immediate: true }
-)
-
-const handleSearch = () => {
-  paginationData.pageNum === 1 ? getTableData() : (paginationData.pageNum = 1)
-}
-
 const resetSearch = () => {
   searchFormRef.value?.resetFields()
-  handleSearch()
 }
 
 const handleCreat = () => {
@@ -84,21 +55,7 @@ const handleUpdate = (row: InsuranceData) => {
 }
 
 //#region 删
-const handleDelete = (row: InsuranceData) => {
-  ElMessageBox.confirm(`削除しますか？`, "確認", {
-    confirmButtonText: "確定",
-    cancelButtonText: "キャンセル",
-    type: "warning"
-  }).then(() => {
-    if (row.insurancecontractid) {
-      deleteInsurance(String(row.insurancecontractid)).then((res) => {
-        getTableData()
-      })
-    }
-  })
-}
-
-const value = ref(true)
+const handleDelete = (row: InsuranceData) => {}
 </script>
 
 <template>
@@ -132,14 +89,17 @@ const value = ref(true)
         </el-row>
         <el-row type="flex" justify="end">
           <el-form-item>
-            <el-button type="primary" :icon="Search" @click="handleSearch">給料算出</el-button>
-            <el-button type="primary" :icon="Search" @click="handleSearch">給料確定</el-button>
-            <el-button type="primary" :icon="Search" @click="handleSearch">明細発行</el-button>
+            <el-button type="primary" :icon="Search">給料算出</el-button>
+            <el-button type="primary" :icon="Search">給料確定</el-button>
+            <el-button type="primary" :icon="Search">明細発行</el-button>
           </el-form-item>
         </el-row>
       </el-form>
     </el-card>
     <el-card v-loading="loading" shadow="never">
+      <div>
+        <div flex justify-end flex-items-center>表示形式 <el-switch v-model="value" ml-1 /></div>
+      </div>
       <div mb-3>
         <el-table :data="tableData">
           <el-table-column prop="insurancecompanyName" label="社員番号" align="center" :width="150" />
@@ -176,12 +136,6 @@ const value = ref(true)
         />
       </div>
     </el-card>
-    <AddOrEdditModal
-      ref="addOrEdditModalRef"
-      v-model="loading"
-      :get-table-data="getTableData"
-      :insuranceCompanyOptions="insuranceCompanyOptions"
-    />
   </div>
 </template>
 

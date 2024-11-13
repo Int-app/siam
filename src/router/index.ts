@@ -132,16 +132,51 @@ export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/salary",
     component: Layouts,
-    redirect: "/salary/list",
+    meta: {
+      title: "給料管理",
+      elIcon: "Money"
+    },
     children: [
       {
         path: "/salary/list",
-        name: "給料計算",
+        name: "給料算出",
         component: () => import("@/views/salary/index.vue"),
         meta: {
-          title: "給料管理",
+          title: "給料算出",
           elIcon: "Money",
           keepAlive: true
+        }
+      },
+      {
+        path: "/salary/detail",
+        name: "給料算出明細",
+        component: () => import("@/views/salary-detail/index.vue"),
+        meta: {
+          title: "給料算出明細",
+          elIcon: "Money",
+          keepAlive: true,
+          hidden: true
+        }
+      },
+      {
+        path: "/salary/history",
+        name: "給料履歴",
+        component: () => import("@/views/salary-history/index.vue"),
+        meta: {
+          title: "給料履歴",
+          elIcon: "Money",
+          keepAlive: true
+        }
+      },
+      {
+        path: "/salary/historydetail",
+        name: "給料履歴明細",
+        component: () => import("@/views/salary-history-detail/index.vue"),
+        meta: {
+          title: "給料履歴明細",
+          elIcon: "Money",
+          keepAlive: true,
+          hidden: true
         }
       }
     ]
