@@ -45,7 +45,7 @@ defineExpose({
         </el-tab-pane>
       </el-tabs>
       <template #footer>
-        <el-button type="primary" @click="handleCreate">追加</el-button>
+        <el-button type="primary" @click="handleCreate">登録</el-button>
       </template>
     </el-dialog>
   </div>

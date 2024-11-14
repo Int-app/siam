@@ -82,7 +82,18 @@ const handleDelete = (row: InsuranceData) => {}
           <el-table-column prop="contractorgivenname" label="保険商品" align="center" :width="120" />
           <el-table-column prop="insuredpersonfamilynamek" label="証券番号" align="center" :width="150" />
           <el-table-column prop="insuredpersonfamilyname" label="保険金額" align="center" :width="150" />
-          <el-table-column prop="insuredpersongivenname" label="11月" align="center" :width="120" />
+          <el-table-column prop="insuredpersongivenname" label="11月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="12月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="1月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="2月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="3月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="4月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="5月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="6月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="7月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="8月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="9月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="10月" align="center" :width="60" />
 
           <el-table-column fixed="right" label="操作" align="center" :width="130">
             <template #default="scope">

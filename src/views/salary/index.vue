@@ -113,14 +113,18 @@ const handleCellClick = () => {
           <el-table-column prop="insurancecompanyName" label="社員番号" align="center" :width="150" />
           <el-table-column prop="insuranceproductid" label="社員名" align="center" :width="150" />
           <el-table-column prop="insurancepapersno" label="社員ランク" align="center" />
-          <el-table-column prop="contractorfamilyname" label="11月" align="center" :width="150" />
-          <el-table-column prop="contractorgivenname" label="ランク" align="center" :width="120" />
-          <el-table-column prop="insuredpersonfamilynamek" label="入社日" align="center" :width="150" />
-          <el-table-column prop="insuredpersonfamilyname" label="生年月日" align="center" :width="150" />
-          <el-table-column prop="insuredpersongivenname" label="電話番号" align="center" :width="120" />
-          <el-table-column prop="insuredpersongivenname" label="メール" align="center" :width="120" />
-          <el-table-column prop="insuredpersongivenname" label="在職状態" align="center" :width="120" />
-          <el-table-column prop="insuredpersongivenname" label="紹介社員" align="center" :width="120" />
+          <el-table-column prop="contractorfamilyname" label="11月" align="center" :width="60" />
+          <el-table-column prop="contractorgivenname" label="12月" align="center" :width="60" />
+          <el-table-column prop="insuredpersonfamilynamek" label="1月" align="center" :width="60" />
+          <el-table-column prop="insuredpersonfamilyname" label="2月" align="center" :width="60" />
+          <el-table-column prop="insuredpersongivenname" label="3月" align="center" :width="60" />
+          <el-table-column prop="insuredpersongivenname" label="4月" align="center" :width="60" />
+          <el-table-column prop="insuredpersongivenname" label="5月" align="center" :width="60" />
+          <el-table-column prop="insuredpersongivenname" label="6月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersonfamilyname" label="7月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="8月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="9月" align="center" :width="60" />
+		  <el-table-column prop="insuredpersongivenname" label="10月" align="center" :width="60" />
           <el-table-column fixed="right" label="操作" align="center" :width="130">
             <template #default="scope">
               <el-button type="primary" text bg size="small" @click="handleUpdate(scope.row)">
