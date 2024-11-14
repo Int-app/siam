@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted, watch, computed, Ref } from "vue"
+import { useRouter } from "vue-router"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } from "@element-plus/icons-vue"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
 import type { OptionType } from "./types"
@@ -9,6 +10,9 @@ import { getInsuranceList, deleteInsurance, getInsurancecompanyList, getInsuranc
 import { mapDataToOption } from "./utils"
 import { base4Layout } from "@/constants/laylout"
 import AddOrEdditModal from "./components/AddOrEdditModal.vue"
+import { data } from "./constants"
+
+const router = useRouter()
 
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 
@@ -32,7 +36,7 @@ const searchData = reactive({
   insurancecontractnumber: undefined //保単番号
 })
 
-const tableData = ref<TableData[]>([])
+const tableData = ref<TableData[]>([data])
 
 const resetSearch = () => {
   searchFormRef.value?.resetFields()
@@ -56,6 +60,10 @@ const handleUpdate = (row: InsuranceData) => {
 
 //#region 删
 const handleDelete = (row: InsuranceData) => {}
+
+const handleCellClick = () => {
+  router.push("/salary/detail")
+}
 </script>
 
 <template>
@@ -101,7 +109,7 @@ const handleDelete = (row: InsuranceData) => {}
         <div flex justify-end flex-items-center>表示形式 <el-switch v-model="value" ml-1 /></div>
       </div>
       <div mb-3>
-        <el-table :data="tableData">
+        <el-table :data="tableData" @cell-click="handleCellClick">
           <el-table-column prop="insurancecompanyName" label="社員番号" align="center" :width="150" />
           <el-table-column prop="insuranceproductid" label="社員名" align="center" :width="150" />
           <el-table-column prop="insurancepapersno" label="社員ランク" align="center" />

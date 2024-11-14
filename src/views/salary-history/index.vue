@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue"
+import { useRouter } from "vue-router"
 import { type FormInstance, type FormRules, ElMessage, ElMessageBox, CollapseModelValue, dayjs } from "element-plus"
 import { Search, Refresh, CirclePlus, Delete, Download, RefreshRight, Edit } from "@element-plus/icons-vue"
 import { usePagination } from "@/hooks/usePagination"
 import { base4Layout, baseLayout } from "@/constants/laylout"
 import type { TableData } from "@/api/insurance/types"
+import { data } from "../salary/constants"
 
+const router = useRouter()
 const { paginationData, handleCurrentChange, handleSizeChange, handleMerge } = usePagination()
 const loading = ref<boolean>(false)
 const searchFormRef = ref<FormInstance | null>(null)
@@ -16,7 +19,7 @@ const searchData = reactive({
   admin: "" //主担当
 })
 
-const tableData = ref<TableData[]>([])
+const tableData = ref<TableData[]>([data])
 
 const value = ref<boolean>(false)
 
@@ -40,6 +43,10 @@ const resetSearch = () => {
 const handleUpdate = () => {}
 
 const handleDelete = () => {}
+
+const handleCeilClick = () => {
+  router.push("/salary/historydetail")
+}
 </script>
 
 <template>
@@ -72,7 +79,7 @@ const handleDelete = () => {}
         <div flex justify-end flex-items-center>表示形式 <el-switch v-model="value" ml-1 /></div>
       </div>
       <div mb-3>
-        <el-table :data="tableData">
+        <el-table :data="tableData" @cell-click="handleCeilClick">
           <el-table-column prop="insurancecompanyName" label="給料月" align="center" :width="150" />
           <el-table-column prop="insuranceproductid" label="社員番号" align="center" :width="150" />
           <el-table-column prop="insurancepapersno" label="社員名" align="center" />

@@ -269,12 +269,14 @@ const resetFormValue = () => {
     month: "",
     day: ""
   }
+
   formData.value = {
     ...formData.value,
     employeeid: userStore.employeeId,
     employeeName: userStore.employeeName,
     nowAge: undefined
   }
+
   activeNames.value = [COLLAPSE_TITLE.保険情報]
   formRef.value?.resetFields()
 }

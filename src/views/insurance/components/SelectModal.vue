@@ -13,7 +13,7 @@ const visible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 
 const formData = ref({
-  category: undefined
+  category: 1
 })
 
 const resetForm = () => {
@@ -27,6 +27,7 @@ const setVisible = (value: boolean) => {
 const handleNext = () => {
   visible.value = false
   props.addOrEdditModalRef?.setDialogVisible(true)
+  props.addOrEdditModalRef?.resetFormValue()
 }
 
 defineExpose({

@@ -230,18 +230,22 @@ const value = ref(true)
 
     <el-card v-loading="loading" shadow="never">
       <div flex justify-between mb-3>
-        <div>
-          <el-button type="primary" @click="handleSelect">新規保険契約</el-button>
-          <el-button type="primary" @click="handleCreat">確定</el-button>
-          <el-button type="primary" @click="handleCreat">解約</el-button>
-          <el-button type="primary" @click="handleCreat">失効</el-button>
-          <el-button type="primary" @click="handleCreat">復活</el-button>
-          <el-button type="primary" @click="handleCreat">削除</el-button>
-          <el-switch v-model="value" size="large" active-text="一覧" inactive-text="カード" />
+        <div flex justify-between w-full>
+          <div>
+            <el-button type="primary" @click="handleSelect">新規保険契約</el-button>
+            <el-button type="primary" @click="handleCreat">確定</el-button>
+            <el-button type="primary" @click="handleCreat">解約</el-button>
+            <el-button type="primary" @click="handleCreat">失効</el-button>
+            <el-button type="primary" @click="handleCreat">復活</el-button>
+            <el-button type="primary" @click="handleCreat">削除</el-button>
+          </div>
+          <div>
+            <el-switch v-model="value" size="large" active-text="一覧" inactive-text="カード" />
+          </div>
         </div>
       </div>
       <div mb-3>
-        <el-table :data="tableData">
+        <el-table v-if="value" :data="tableData">
           <el-table-column prop="insurancecompanyName" label="契約者" align="center" :width="150" />
           <el-table-column prop="insuranceproductid" label="被保険者" align="center" :width="150" />
           <el-table-column prop="insurancepapersno" label="保険会社" align="center" />
@@ -262,6 +266,26 @@ const value = ref(true)
             </template>
           </el-table-column>
         </el-table>
+        <div v-else>
+          <el-row :gutter="20">
+            <template v-for="item in tableData" :key="item.insurancecontractid">
+              <el-col v-bind="base4Layout" pb-3>
+                <el-card style="max-width: 360px">
+                  <template #header>
+                    <div class="card-header">
+                      <span>{{ item.insurancecompanyName }}</span>
+                    </div>
+                  </template>
+                  <div>
+                    <div>契約日:{{ item.insuredpersonfamilynamek }}</div>
+                    <div>保険金額:{{ item.contractorgivenname }}</div>
+                    <div>保険状態:{{ item.insuredpersongivenname }}</div>
+                  </div>
+                </el-card>
+              </el-col>
+            </template>
+          </el-row>
+        </div>
       </div>
       <div flex justify-end>
         <el-pagination
